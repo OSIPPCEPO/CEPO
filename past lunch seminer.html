@@ -1,1 +1,777 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CEPO | 政策エビデンス推進研究センター | 大阪大学大学院国際公共政策研究科</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            color: #333;
+            line-height: 1.8;
+        }
+        .header-navy {
+            background-color: #003366; 
+        }
+        .text-navy {
+            color: #003366;
+        }
+        .bg-navy-light {
+            background-color: #f0f4f8;
+        }
+        .border-navy {
+            border-color: #003366;
+        }
+        /* メニューアニメーション */
+        #main-menu {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateY(-20px);
+            opacity: 0;
+            pointer-events: none;
+        }
+        #main-menu.active {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .hero-overlay {
+            background: linear-gradient(rgba(0,51,102,0.7), rgba(0,51,102,0.4));
+        }
 
+        /* スポイラー（アコーディオン）スタイル */
+        .spoiler-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        .spoiler-item.active .spoiler-content {
+            max-height: 3000px;
+            padding-bottom: 1.5rem;
+        }
+        .spoiler-item.active .spoiler-icon {
+            transform: rotate(180deg);
+        }
+
+        /* 画像付きバナーボックスのスタイル */
+        .banner-box {
+            position: relative;
+            height: 240px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        @media (min-width: 1024px) {
+            .banner-box {
+                height: 300px;
+            }
+        }
+        .banner-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        .banner-box img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+        }
+        .banner-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.55);
+            z-index: 1;
+        }
+        .banner-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 0 15px;
+        }
+        .cepo-logo-circle {
+            width: 70px;
+            height: 70px;
+            background: rgba(0, 31, 63, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+            flex-shrink: 0;
+        }
+        @media (min-width: 768px) {
+            .cepo-logo-circle {
+                width: 90px;
+                height: 90px;
+            }
+        }
+        .banner-text-bottom {
+            position: absolute;
+            bottom: 15px;
+            left: 0;
+            right: 0;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            font-size: 0.75rem;
+            padding: 0 12px;
+            line-height: 1.5;
+        }
+        @media (min-width: 768px) {
+            .banner-text-bottom {
+                bottom: 25px;
+                font-size: 1rem;
+            }
+        }
+
+        /* ページ切り替えの表示制御 */
+        .page-view {
+            display: none;
+        }
+        .page-view.active {
+            display: block;
+        }
+    </style>
+</head>
+<body class="bg-white">
+
+    <!-- ナビゲーションバー -->
+    <header class="header-navy text-white sticky top-0 z-50 shadow-md">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="showPage('home')">
+                <div class="border-l-2 border-white/40 pl-3">
+                    <p class="text-[10px] md:text-xs tracking-widest opacity-80 leading-none mb-1 uppercase">Osaka University / OSIPP</p>
+                    <h1 class="text-lg md:text-xl font-bold tracking-tight leading-none">
+                        CEPO <span class="font-normal text-xs md:text-base ml-1 md:ml-2">政策エビデンス推進研究センター</span>
+                    </h1>
+                </div>
+            </div>
+            
+            <!-- 三本線メニューボタン -->
+            <button id="menu-btn" class="p-2 focus:outline-none flex items-center space-x-3 group">
+                <span class="text-xs font-bold tracking-widest hidden sm:inline">MENU</span>
+                <div class="relative w-6 h-5">
+                    <span id="bar1" class="absolute block w-6 h-0.5 bg-white transition-all duration-300 top-0"></span>
+                    <span id="bar2" class="absolute block w-6 h-0.5 bg-white transition-all duration-300 top-2"></span>
+                    <span id="bar3" class="absolute block w-6 h-0.5 bg-white transition-all duration-300 top-4"></span>
+                </div>
+            </button>
+        </div>
+    </header>
+
+    <!-- 展開メニュー（8項目） -->
+    <div id="main-menu" class="fixed inset-x-0 bg-slate-900 text-white z-40 border-t border-slate-700 shadow-2xl overflow-y-auto max-h-[85vh]">
+        <div class="container mx-auto px-6 py-12">
+            <nav class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-4">
+                <div class="flex flex-col">
+                    <a href="index.html" class="flex items-center p-4 hover:bg-white/5 rounded transition border-b border-white/10 md:border-none font-bold">
+                        <span class="text-blue-400 mr-3 text-xs">01</span> CepoHome
+                    </a>
+                </div>
+                <div class="flex flex-col">
+                    <a href="#" class="flex items-center p-4 hover:bg-white/5 rounded transition border-b border-white/10 md:border-none font-bold">
+                        <span class="text-blue-400 mr-3 text-xs">02</span> 活動内容
+                    </a>
+                    <div class="pl-12 flex flex-col space-y-3 pb-4 pt-2">
+                        <a href="publications.html" class="text-sm text-gray-400 hover:text-white transition">Publications</a>
+                        <a href="https://docs.google.com/spreadsheets/d/1nTMQU5SLe1nx_VV4HUmrQhgtqkUtfwCLIfmnBXL6TPw/edit?gid=139518486#gid=139518486" target="_blank" class="text-sm text-gray-400 hover:text-white transition">ランチセミナーのお知らせ</a>
+                        <a href="past lunch seminer.html" class="text-sm text-gray-400 hover:text-white transition">過去のランチセミナー</a>
+                        <a href="discussion papers.html" class="text-sm text-gray-400 hover:text-white transition">Discussion Papers</a>
+                        <a href="research project.html" class="text-sm text-gray-400 hover:text-white transition">研究協力プロジェクト</a>
+                        <a href="awards.html" class="text-sm text-gray-400 hover:text-white transition">受賞</a>
+                        <a href="cepo events.html" class="text-sm text-gray-400 hover:text-white transition">CEPOイベント</a>
+                    </div>
+                </div>
+                <div class="flex flex-col">
+                    <a href="#" class="flex items-center p-4 hover:bg-white/5 rounded transition border-b border-white/10 md:border-none font-bold">
+                        <span class="text-blue-400 mr-3 text-xs">03</span> メンバー
+                    </a>
+                </div>
+                <div class="flex flex-col">
+                    <a href="#" class="flex items-center p-4 hover:bg-white/5 rounded transition border-b border-white/10 md:border-none font-bold">
+                        <span class="text-blue-400 mr-3 text-xs">04</span> 入学を希望される方へ
+                    </a>
+                    <div class="pl-12 flex flex-col space-y-3 pb-4 pt-2">
+                        <a href="#" class="text-sm text-gray-400 hover:text-white transition">OSIPPの教育</a>
+                        <a href="#" class="text-sm text-gray-400 hover:text-white transition">応募について</a>
+                        <a href="#" class="text-sm text-gray-400 hover:text-white transition">CEPOサポートサービス</a>
+                        <a href="#" class="text-sm text-gray-400 hover:text-white transition">理工系の方へ</a>
+                    </div>
+                </div>
+                <div class="flex flex-col">
+                    <a href="EBPM data.html" class="flex items-center p-4 hover:bg-white/5 rounded transition border-b border-white/10 md:border-none font-bold">
+                        <span class="text-blue-400 mr-3 text-xs">05</span> EBPMのデータ
+                    </a>
+                </div>
+                <div class="flex flex-col">
+                    <a href="#" class="flex items-center p-4 hover:bg-white/5 rounded transition border-b border-white/10 md:border-none font-bold">
+                        <span class="text-blue-400 mr-3 text-xs">06</span> リンク集
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </div>
+<!-- Main Content Area -->
+    <main>
+        <section class="relative h-[250px] md:h-[300px] flex items-center justify-center overflow-hidden">
+            <div class="absolute inset-0">
+                <img src="https://images.unsplash.com/photo-1431540015161-0bf868a2d407?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" alt="" class="w-full h-full object-cover">
+                <div class="absolute inset-0 hero-overlay"></div>
+            </div>
+            <div class="container mx-auto px-4 relative z-10 text-center text-white">
+                <p class="text-xs md:text-sm font-bold tracking-[0.4em] mb-4 uppercase opacity-80">Center for Evidence-based Policy</p>
+                <h2 class="text-2xl md:text-5xl font-bold mb-0 leading-tight">Past Lunch Seminars</h2>
+            </div>
+        </section>
+
+        <section class="py-12 md:py-20 bg-white">
+            <div class="container mx-auto px-4 max-w-6xl">
+                <div class="mb-12">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 border-b border-gray-100 pb-8">
+                        <div>
+                            <h3 class="text-xl font-bold text-navy">開催記録の一覧</h3>
+                            <p class="text-sm text-gray-500 mt-1">過去に実施されたランチセミナーの情報を検索・ソートできます</p>
+                        </div>
+                        
+                        <div class="relative w-full md:w-1/2 lg:w-1/3">
+                            <input type="text" id="seminar-search-input" placeholder="報告者、タイトルなどで検索" class="w-full px-5 py-3 border border-gray-200 rounded-full focus:outline-none focus:border-blue-500 text-sm md:text-base text-gray-700 bg-gray-50 transition-all">
+                            <div class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="border-b-2 border-gray-100 text-navy uppercase tracking-wider text-xs md:text-sm">
+                                    <th class="p-4 font-bold w-32 sort-header" data-sort="date" id="header-date">
+                                        Date
+                                        <span class="sort-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 15l5 5 5-5M7 9l5-5 5 5"/></svg></span>
+                                    </th>
+                                    <th class="p-4 font-bold min-w-[200px] sort-header" data-sort="speaker" id="header-speaker">
+                                        Presenter
+                                        <span class="sort-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 15l5 5 5-5M7 9l5-5 5 5"/></svg></span>
+                                    </th>
+                                    <th class="p-4 font-bold min-w-[350px] sort-header" data-sort="title" id="header-title">
+                                        Topic / Title
+                                        <span class="sort-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 15l5 5 5-5M7 9l5-5 5 5"/></svg></span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="seminar-tbody">
+                                <!-- JavaScriptで生成 -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div id="no-results" class="hidden py-20 text-center text-gray-400">
+                        該当する記録は見つかりませんでした
+                    </div>
+                    
+                    <div id="pagination-controls" class="flex justify-center mt-8 gap-2"></div>
+                </div>
+
+                <div class="border-t border-gray-100 pt-8 text-center">
+                    <a href="index.html" class="text-navy font-bold hover:underline text-sm inline-flex items-center">
+                        ホームに戻る
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- フッター (全ページ共通) -->
+    <footer class="bg-slate-900 text-white pt-16 pb-10">
+        <div class="container mx-auto px-4 text-center md:text-left">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12 border-b border-slate-800 pb-12">
+                <div>
+                    <h5 class="text-lg font-bold mb-6 italic tracking-widest">CEPO Contact</h5>
+                    <p class="text-xs md:text-sm opacity-60 leading-loose mb-6">
+                        政策エビデンス推進研究センター<br>
+                        大阪大学大学院国際公共政策研究科 (OSIPP)<br>
+                        〒560-0043 大阪府豊中市待兼山町1-31<br>
+                        Email: 602sec@osipp.osaka-u.ac.jp<br>
+                        Tel: Tel : 06-6850-6111（代表）
+                    </p>
+                    <ul class="text-xs md:text-sm space-y-3">
+                        <li><a href="https://www.osipp.osaka-u.ac.jp/ja/about-osipp/where-we-are/" target="_blank" class="font-bold text-white hover:text-blue-400 transition">OSIPPへのアクセス</a></li>
+                        <li><a href="https://www.osipp.osaka-u.ac.jp/ja/about-osipp/job-openings/" target="_blank" class="font-bold text-white hover:text-blue-400 transition">求人情報</a></li>
+                        <li><a href="https://www.osipp.osaka-u.ac.jp/ja/osipp-news-and-upcoming-events/osipp-club-page/" target="_blank" class="font-bold text-white hover:text-blue-400 transition">OSIPP Clubメールマガジン</a></li>
+                        <li><a href="https://www.osipp.osaka-u.ac.jp/ja/osipp-links/global-community-office/" target="_blank" class="font-bold text-white hover:text-blue-400 transition">OSIPP Global Community Office</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="text-lg font-bold mb-6">Related Links</h5>
+                    <ul class="text-xs md:text-sm space-y-3 opacity-60">
+                        <li><a href="https://www.osaka-u.ac.jp/ja" target="_blank" class="hover:text-blue-400 transition">大阪大学 Website</a></li>
+                        <li><a href="https://www.library.osaka-u.ac.jp/" target="_blank" class="hover:text-blue-400 transition">大阪大学附属図書館</a></li>
+                        <li><a href="https://www.econ.osaka-u.ac.jp/" target="_blank" class="hover:text-blue-400 transition">経済学研究科・経済学部</a></li>
+                        <li><a href="https://www.law.osaka-u.ac.jp/" target="_blank" class="hover:text-blue-400 transition">大阪大学法学系ポータルサイト</a></li>
+                        <li><a href="https://www.iser.osaka-u.ac.jp/" target="_blank" class="hover:text-blue-400 transition">社会経済研究所</a></li>
+                        <li><a href="https://gsss-osaka.net/" target="_blank" class="hover:text-blue-400 transition">大阪大学社会科学系連携ポータル</a></li>
+                        <li><a href="https://ciee.osaka-u.ac.jp/" target="_blank" class="hover:text-blue-400 transition">Center for International Education and Exchange</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="text-lg font-bold mb-6">Centers & Programs</h5>
+                    <ul class="text-xs md:text-sm space-y-3 opacity-60">
+                        <li><a href="#" class="hover:text-blue-400 transition">EBPM研究センター</a></li>
+                        <li><a href="https://www.osipp.osaka-u.ac.jp/iaforresearchcentre/" target="_blank" class="hover:text-blue-400 transition">大阪大学大学院国際公共政策研究科IAFOR研究センター</a></li>
+                        <li><a href="https://www.cbi.osaka-u.ac.jp/" target="_blank" class="hover:text-blue-400 transition">The Cross-Boundary Innovation (CBI) Program</a></li>
+                        <li><a href="https://www.osipp.osaka-u.ac.jp/leader/" target="_blank" class="hover:text-blue-400 transition">グローバルリーダーシップ・プログラム（ＧＬＰ）</a></li>
+                        <li><a href="https://www.osaka-u.ac.jp/ja/education/fukusenkou/gm_programs" target="_blank" class="hover:text-blue-400 transition">大学院副専攻プログラム・大学院等高度副プログラム</a></li>
+                        <li><a href="https://esg-irec.jp/" target="_blank" class="hover:text-blue-400 transition">ESGインテグレーション研究教育センター（ESG-IREC）</a></li>
+                        <li><a href="https://www.osipp.osaka-u.ac.jp/ja/curriculum/double-degree-programs/" target="_blank" class="hover:text-blue-400 transition">ダブルディグリー・プログラム</a></li>
+                    </ul>
+                </div>
+               <div>
+                    <h5 class="text-lg font-bold mb-6">OSIPP公式SNS</h5>
+                    <div class="flex flex-wrap gap-4 justify-start">
+                        <a href="https://www.facebook.com/osipp.nl/" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-blue-600 transition" aria-label="Facebook">
+                            <svg fill="currentColor" viewBox="0 0 24 24" class="w-5 h-5"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg>
+                        </a>
+                        <a href="https://www.instagram.com/osaka_u_osipp/" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-pink-600 transition" aria-label="Instagram">
+                            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-5 h-5"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+                        </a>
+                        <a href="https://x.com/OSIPP_Osaka_U" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-gray-600 transition" aria-label="X">
+                            <svg fill="currentColor" viewBox="0 0 24 24" class="w-5 h-5"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 24.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                        </a>
+                        <a href="https://www.youtube.com/channel/UCAY0Gd786_CILQqGwRF1tRQ" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-red-600 transition" aria-label="YouTube">
+                            <svg fill="currentColor" viewBox="0 0 24 24" class="w-5 h-5"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.5 12 3.5 12 3.5s-7.505 0-9.377.55a3.016 3.016 0 0 0-2.122 2.136C0 8.07 0 12 0 12s0 3.93.501 5.814a3.016 3.016 0 0 0 2.122-2.136c1.871.55 9.377.55 9.377.55s7.505 0 9.377-.55a3.016 3.016 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                        </a>
+                    </div>
+                    <div class="mt-6 flex justify-center md:justify-start">
+                        <a href="#" class="block hover:opacity-80 transition bg-white p-1 rounded border border-gray-200">
+                            <img src="スクリーンショット 2026-03-21 102643.png" alt="OSIPP News blog" class="w-[200px] h-auto rounded">
+                        </a>
+                    </div>
+                    <h5 class="text-lg font-bold mt-8 mb-6">The University of Osaka</h5>
+                    <div class="flex flex-wrap gap-4 justify-center md:justify-start">
+                        <a href="https://www.facebook.com/TheUniversityofOsaka/" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-blue-600 transition" aria-label="Facebook">
+                            <svg fill="currentColor" viewBox="0 0 24 24" class="w-5 h-5"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg>
+                        </a>
+                        <a href="https://www.instagram.com/uosaka_1931/" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-pink-600 transition" aria-label="Instagram">
+                            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-5 h-5"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+                        </a>
+                        <a href="https://x.com/UOsaka_ja" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-gray-600 transition" aria-label="X">
+                            <svg fill="currentColor" viewBox="0 0 24 24" class="w-5 h-5"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 24.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                        </a>
+                        <a href="https://www.youtube.com/user/osakaunivofficial" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-red-600 transition" aria-label="YouTube">
+                            <svg fill="currentColor" viewBox="0 0 24 24" class="w-5 h-5"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.5 12 3.5 12 3.5s-7.505 0-9.377.55a3.016 3.016 0 0 0-2.122 2.136C0 8.07 0 12 0 12s0 3.93.501 5.814a3.016 3.016 0 0 0 2.122-2.136c1.871.55 9.377.55 9.377.55s7.505 0 9.377-.55a3.016 3.016 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center opacity-30 text-[10px] tracking-widest uppercase">
+                &copy; 2024 CENTER FOR EVIDENCE-BASED POLICY (CEPO), OSIPP.
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript：UI制御ロジック -->
+     <script>
+        const seminarData = [
+            { date: "2025/1/8", speaker: "Saisawat Samutpradit; GSE", title: "Me After You: Spousal Death and Economic Adjustments in a Developing Economy" },
+            { date: "2025/1/15", speaker: "Chien-Tzu Cheng; GSE", title: "See you at night: Unintended consequences of paying physician diagnostic fees for emergency care" },
+            { date: "2024/5/15", speaker: "Yumi Ishikawa; Shiga U", title: "カンボジアにおける公的医療機関への信頼度についての研究（フィールド実験実施前の実験デザイン報告）" },
+            { date: "2024/12/3", speaker: "Shuhei Kitamura; ISER", title: "Norms and Misperceptions in Corruption" },
+            { date: "2024/12/18", speaker: "Ryo Sakamoto; ISER", title: "On the Undesirable Repercussions of Gender Norms in an Endogenous Growth Model" },
+            { date: "2024/12/17", speaker: "OSIPP Faculty Members", title: "Tips for Empirical Research Design" },
+            { date: "2024/12/11", speaker: "Qirui Xiao; GSE", title: "High-speed Railway and Long-term Regional Growth: An Empirical Study using Nighttime Light Satellite Data" },
+            { date: "2024/11/6", speaker: "Wakako Maekawa & Hinako Takata; OSIPP", title: "External Influence on Latin America’s Peace versus Justice Dilemma: (How) Does the Inter-American Court of Human Rights’ Amnesty Law Jurisprudence Affect Peace and National Reconciliation?" },
+            { date: "2024/11/27", speaker: "Variya Kunapasut; Ritsumeikan University", title: "The Causal Effect of Nepal’s Primary Education Reform on Female Fertility" },
+            { date: "2024/11/20", speaker: "Elizaveta Kugaevskaia; OSIPP-D", title: "Church and Protest Participation: Evidence from Russia" },
+            { date: "2024/11/13", speaker: "Hayato Umetani; Kobe University", title: "Wildfires, Pollution, and Pregnancy Outcomes: Evidence from Lightning Strikes" },
+            { date: "2024/11/12", speaker: "OSIPP Faculty Members", title: "Tips for Presentation" },
+            { date: "2024/10/9", speaker: "Yuta Kikuchi; ISER", title: "Markup Bounds" },
+            { date: "2024/10/30", speaker: "Tselmuun Tserenkhuu; ISER", title: "Life expectancy and business cycles in a small open economy" },
+            { date: "2024/10/23", speaker: "Zhehao Wang; OSIPP-D", title: "Health and education investments in human capital, the impacts on fertility and economic growth" },
+            { date: "2024/10/16", speaker: "Xuanzi Zuo; OSIPP-D", title: "Welfare Policy and Suicide: The Role of “Self-reliance Support for the Needy” in Japan" },
+            { date: "2024/1/31", speaker: "Masahiro Shoji; Tokyo University, and Naoshi Doi; Otaru University of Commerce", title: "Cost and Demand Effects of Legal Prostitution on Child Sex Trafficking in Bangladesh" },
+            { date: "2024/1/24", speaker: "Mika Akesaka; Kobe University", title: "How Does Father's Involvement in Childcare Affect Mother's Employment (with Nobuyoshi Kikuchi)" },
+            { date: "2024/1/17", speaker: "Kyosuke Kikuta; Institute of Developing Economies, JETRO", title: "Eclipse: How Celestial Superstition and Tactical Darkness Shape Violence in Africa" },
+            { date: "2024/1/10", speaker: "Nobuo Akai; OSIPP", title: "Decentralized leadership with sequential move games of local governments" },
+            { date: "2024/08/07", speaker: "Mifuyu Kira; OSIPP-D", title: "On the Effects of Interactions between Students with and without Special Needs Education: An Empirical Analysis" },
+            { date: "2024/07/31", speaker: "Katsuhiko Nishiyama; OSIPP", title: "Shrinking Populations, Aging, and Access to Healthcare" },
+            { date: "2024/07/24", speaker: "Eddy Zou (London School of Economics)", title: "Climate Change and The Allocation of Health Investments Across Space (joint with Isadora Bousquat Árabe at LSE and Dongqin Wang at NYU Shanghai)" },
+            { date: "2024/07/17", speaker: "Naoko Hara; ISER", title: "Testing and Quantifying Economic Resilience (joint with Yohei Yamamoto)" },
+            { date: "2024/07/10", speaker: "Shuhei Kitamura; ISER", title: "Semantic Processing of Political Words in Naturalistic Information Differs by Political Orientation" },
+            { date: "2024/07/03", speaker: "Mizuki Nakagoshi; Kwansei Gakuin University", title: "日本の有権者に対するシステム正当化理論の適用可能性" },
+            { date: "2024/06/26", speaker: "Fumiya Uchikoshi; Harvard University", title: "The Role of Skill Portability in Shaping Women's Career Trajectories: Evidence from Japan" },
+            { date: "2024/06/19", speaker: "Takeshi Murooka; ISER", title: "Unpacking the Child Penalty: Evidence from Personnel Data" },
+            { date: "2024/06/12", speaker: "Kotaro Fujisaki; University College London-D", title: "Heterogeneous Effectiveness of Education Policies by Gender and Culture" },
+            { date: "2024/06/05", speaker: "Hazumu Ono; OSIPP", title: "日本における有権者の資産形成と保守化: パネルデータ分析による検証" },
+            { date: "2024/05/29", speaker: "Tianqi Hu; GSE-D", title: "Heterogeneity in expansion dynamics: case of Chinese gold store" },
+            { date: "2024/05/22", speaker: "Gwen-Jiro Clochard; ISER", title: "A Large-scale Field Experiment to Disentangle Sources of Statistical Discrimination in a Social Setting" },
+            { date: "2024/05/08", speaker: "Elizaveta Kugaevskaia; OSIPP-D", title: "Time Zones and Voting Behavior: Evidence from Russia" },
+            { date: "2024/04/24", speaker: "Kyosuke Kikuta; Institute of Developing Economies", title: "The Global Evidence for the Relevance of Irrelevant Events: The Effects of International Soccer Games on Leader Approval" },
+            { date: "2024/04/17", speaker: "Tiziano Razzolini; University of Siena", title: "Civis Europaeus Sum! The Labour Market Advantage of getting EU Citizenship" },
+            { date: "2023/7/5", speaker: "Dongqin Wang; OSIPP", title: "Public WASH Programs, Long-Run Child Development, and Intergenerational Mobility: New Evidence from Rural People’s Republic of China" },
+            { date: "2023/7/19", speaker: "Yanni Shen; OSIPP", title: "The effect of the Internet on body weight and happiness" },
+            { date: "2023/7/12", speaker: "Shuhei Kitamura; CiDER", title: "Climate, Psychology, and Human Culture: A Quantitative Analysis of Art in Global History" },
+            { date: "2023/6/7", speaker: "Bipasha Maity; Ashoka University", title: "Socio-Economic Identity and Intra-Household Distribution of Consumption in India: A Structural Approach (joint with Sutirtha Badyopadhyay, Indian Institute of Management, Indore)" },
+            { date: "2023/6/28", speaker: "Hidekazu Niwa; OSIPP", title: "Fragmented Fiscal Policymaking, Inflation, and Long-Term Interest Rates: Policy Game in a New Keynesian Economy" },
+            { date: "2023/6/21", speaker: "Takuma Kamada; OSIPP", title: "Consequences of an Abuse-deterrent Opioid Policy on the Concentration of Neighborhood Poverty" },
+            { date: "2023/6/14", speaker: "Takeshi Murooka; OSIPP", title: "Unawareness and Equilibrium Stability in Misspecified Learning" },
+            { date: "2023/6/13", speaker: "Tatsuya Koyama; NYU", title: "Militarized Sanctuary: How Incomplete Protection of Indigenous Peoples Entangle Them into Armed Conflict" },
+            { date: "2023/5/31", speaker: "Kyosuke Kikuta; IDE JETRO", title: "More Equality for Women Does Mean Less War: Descriptive Representation, Legislative Votes, and International Conflict" },
+            { date: "2023/5/24", speaker: "Tianqi Hu; GSE-D2", title: "Human capital investment and export dynamics" },
+            { date: "2023/5/17", speaker: "Mika Akesaka; Kobe University", title: "Long-run Consequences of Timing Mismatch between Bill and Pay Dates" },
+            { date: "2023/5/10", speaker: "Yoshiyasu Ono; ISER", title: "Economic stimulus effects of product innovation under demand stagnation" },
+            { date: "2023/4/26", speaker: "Shingo Ishiguro; GSE", title: "Relational Contracts and Subjective Evaluation with Endogenous Wealth Accumulation" },
+            { date: "2023/12/19", speaker: "OSIPP Faculty Members", title: "Tips for DiD Research Design" },
+            { date: "2023/12/13", speaker: "Yanni Shen; OSIPP", title: "Social Norms and Diet for Young Women" },
+            { date: "2023/11/29", speaker: "Rio Ikeuchi; OSIPP-M", title: "#MeToo and Beyond: Addressing Gender Gaps in the Workplace" },
+            { date: "2023/11/22", speaker: "Hayato Kato; GSE", title: "Tax competition for automation capital (co-authored with Jonas Loebbing)" },
+            { date: "2023/11/15", speaker: "Donglian Ma; Hong Kong Polytechnic University", title: "Auction with Seller’s Opt-in Option: A Study of Ethereum’s Proposer-Builder Separation" },
+            { date: "2023/11/14", speaker: "OSIPP Faculty Members", title: "Tips for Presentation" },
+            { date: "2023/11/1", speaker: "Kota Murayama; Chinese University of Hong Kong", title: "Social Value of Public Information in Large Network Games" },
+            { date: "2023/10/25", speaker: "Hidekazu Niwa; OSIPP", title: "Optimal Monetary Policy When a Government is Present-Biased: Role of Debt Maturity" },
+            { date: "2023/10/18", speaker: "Manaho Hanayama; OSIPP-M", title: "Unveiling the Influence of Multilateral Summits on National Images" },
+            { date: "2023/10/11", speaker: "Takuro Yamashita; OSIPP", title: "Unraveling and Judge Productivity in the Market for Federal Judicial Law Clerks: Evidence and Proposal (joint with Daniel Chen and YingHua He)" },
+            { date: "2023/1/25", speaker: "Mika Akesaka; Kobe University", title: "Hot temperature, humidity, and learning" },
+            { date: "2023/1/18", speaker: "Hidekazu Niwa; OSIPP", title: "Should the fiscal authority avoid the implementation lags?" },
+            { date: "2023/1/11", speaker: "Takuro Yamashita; OSIPP", title: "Privacy concerned data provision" },
+            { date: "2022/9/7", speaker: "Shinsuke Tanaka ; Tufts University", title: "Estimating the effects of insufficient sunlight and solar geoengineering on suicide rates in the United States (joint with Tetsuya Matsubayashi at OSIPP)" },
+            { date: "2022/8/3", speaker: "Dilou Prospere; OSIPP-D", title: "Is Climate Change Slowing the Urban Escalator out of Poverty? Evidence from Indonesia" },
+            { date: "2022/7/6", speaker: "Takuma Kamada; OSIPP", title: "From Coal to Oil: Energy Transition and the Persistence of the Yakuza" },
+            { date: "2022/7/5", speaker: "Miyuki Nagashima; RITE", title: "Quantitative assessment of climate change mitigations and policy implications based on the analyses using the RITE models" },
+            { date: "2022/7/22", speaker: "Yaxi JIANG; OSIPP-D", title: "The Gender-based Price Discrimination under Demand Interdependency –An Empirical Study of Movie Theatres" },
+            { date: "2022/7/20", speaker: "Dongqin Wang; OSIPP", title: "Child Schooling and Housework Time: Evidence from Land Expropriation in Rural China" },
+            { date: "2022/7/19", speaker: "Serguey Braguinsky: Maryland U", title: "Increasing match between science and engineering education and invention in the co-evolution of education and industry" },
+            { date: "2022/7/13", speaker: "Thang Dao; ISER", title: "The slow demographic transition in regions vulnerable to climate change" },
+            { date: "2022/6/8", speaker: "Rio Ikeuchi; OSIPP_Course student", title: "Non-white Founding Fathers: Does Musical Hamilton Shape Beliefs about the Causes of Racial Inequality?" },
+            { date: "2022/6/29", speaker: "Kotaro Fujisaki; OSIPP-M", title: "The Effects of Abolishing Primary School Fees in Indonesia on Children’s Educational Attainment and Future Labour Market Outcomes: A Regression Discontinuity Analysis" },
+            { date: "2022/6/22", speaker: "Tomohiro Ohya; OSIPP- M", title: "Bid Preference in Public Procurement Auction : Evidence from Randomized Control Experiment in Japan" },
+            { date: "2022/6/15", speaker: "Shusaku Sasaki; CiDER, Osaka University", title: "ワクチン接種と差別的態度" },
+            { date: "2022/6/1", speaker: "Azusa Katagiri; OSIPP", title: "Attracting Foreign Direct Investments: Evidence from China’s Bilateral Investment Treaties" },
+            { date: "2022/5/26", speaker: "Kensuke Teshima; Hitotsubashi University", title: "Geography of Business Interactions: Evidence from Business Card Exchange Data (joint with Shota Komatsu, Juan Martínez, Kentaro Nakajima, Takanori Nishida, Junichi Yamasaki)" },
+            { date: "2022/5/25", speaker: "Youngrok Kim; OSIPP-D", title: "寄付行動は家族間の「仕送り」に影響するか？" },
+            { date: "2022/5/18", speaker: "Tetsuya Matsubayashi; OSIPP", title: "新しい政党の参入は投票率を高めるのか?" },
+            { date: "2022/12/21", speaker: "Yiru Liu; GSE-D", title: "An Investigation into Male Marriage Wage Premium: Evidence from China" },
+            { date: "2022/12/14", speaker: "Takuma Kamada ; OSIPP", title: "Tips for DiD Research Design" },
+            { date: "2022/12/1", speaker: "Hidekazu Niwa; OSIPP", title: "A Fiscal Theory of Central Bank’s Solvency: Perils of the Quantitative and Qualitative Monetary Easing" },
+            { date: "2022/11/9", speaker: "Tetsuya Matsubayashi; OSIPP", title: "Tips for Presentation" },
+            { date: "2022/11/2", speaker: "Kyosuke Kikuta; IDE, and Manaho Hanayama; OSIPP-M1", title: "Does the Nobel Peace Prize Improve Women’s Rights? The Effects of International Awards on Human Rights" },
+            { date: "2022/11/16", speaker: "Mamiko Yamashita; OSIPP", title: "Option-implied Forecasts with Robust Change of Measure" },
+            { date: "2022/10/26", speaker: "Elizaveta Kugaevskaia; OSIPP -D1", title: "Church and Voting Behavior: Evidence from Russia" },
+            { date: "2022/10/19", speaker: "Eddy (Weijian) Zou; IFS", title: "Unintended Consequences of Public Preschool Closures: Evidence from an Unusual Policy Experiment in China (joint with Dongqin Wang at OSIPP)" },
+            { date: "2022/10/12", speaker: "Hisaki Kono; Kyoto University", title: "At the Right Time: Modifying Repayment and Disbursement Schedule in Microcredit" },
+            { date: "2022/1/5", speaker: "Hiroki Kato; Osaka Univ. GSE", title: "Charitable Giving and Self-Selection of Tax Relief: A Case of South Korea" },
+            { date: "2022/1/26", speaker: "Charles Leung; City Univ of Hong Kong", title: "Pricing Long-term Case: the Case of Elderly Homes" },
+            { date: "2022/1/22", speaker: "Mika Akesaka; ISER, and Yoko Okuyama; Uppsala University", title: "推薦・ＡＯ入試増加と大学生のソーティング（データデジタル化準備に向けた、リサーチデザインの報告）" },
+            { date: "2022/1/19", speaker: "Yusuke Kuroishi; Hitotsubashi University", title: "The Value of Trademarks: Micro Evidence from Chinese Exports to Africa" },
+            { date: "2021/7/7", speaker: "Shuhei Kitamura", title: "UFOs" },
+            { date: "2021/7/28", speaker: "Mika Akesaka", title: "Hot Temperature, Humidity, and Learning" },
+            { date: "2021/7/21", speaker: "Yanni Shen", title: "Peer Effect on Consumption: Evidence from China" },
+            { date: "2021/7/14", speaker: "Dongqin Wang", title: "Sanitation and Work Time: The Effects of Toilet Revolution in Rural China" },
+            { date: "2021/6/9", speaker: "Mayuko Abe", title: "The Effect of Abacus Classes on Child Outcomes" },
+            { date: "2021/6/30", speaker: "Masako Ikefuji", title: "Environmental Policies in a Stagnant Economy" },
+            { date: "2021/6/23", speaker: "Thang Dao", title: "Climate Policy and Wealth Distribution" },
+            { date: "2021/6/2", speaker: "Chenxiao Xia", title: "Economic Approach in Geopolitical Rivalry: Some Reflections on Foreign Policy" },
+            { date: "2021/6/16", speaker: "Mariko Nakagawa", title: "Residential Agglomeration of the Homeless and Its Effects on Their Living Standards" },
+            { date: "2021/5/26", speaker: "Hiroko Okudaira", title: "Parental Investment After Natural Disaster" },
+            { date: "2021/5/19", speaker: "Hayato Kato", title: "The Resilience of FDI to Natural Disasters through Industrial Linakges" },
+            { date: "2021/5/12", speaker: "Ryo Sakamoto", title: "Effects of Childcare Availability on Fertility and Maternal Labor Supply" },
+            { date: "2021/4/28", speaker: "Pramod Kumar Sur", title: "Why is the Vaccination Rate Low in India?" },
+            { date: "2021/4/21", speaker: "Takeshi Murooka", title: "Informal Incentives, Labor Supply, and the Effect of Immigration on Wages" },
+            { date: "2021/3/3", speaker: "Hitoshi Shigeoka; 重岡仁; Simon Fraser University", title: "Temporal Instability of Risk Preference among the Poor: Evidence from Payday Cycles" },
+            { date: "2021/2/3", speaker: "Shiko Maruyama; 丸山士行; University of Technology Sydney", title: "Why Waste Your Vote? Informal Voting in Compulsory Elections in Australia" },
+            { date: "2021/2/24", speaker: "Mamiko Yamashita; 山下真美子; Toulouse-D", title: "Return predictability and risk management" },
+            { date: "2021/12/22", speaker: "OSIPP Junior Faculty", title: "Guidance session on empirical research design" },
+            { date: "2021/12/15", speaker: "Nobuhiko Nakazawa; Hitotsubashi University", title: "Direct and indirect effects of mandatory retirement systems on workers of different ages" },
+            { date: "2021/12/1", speaker: "Pramod Kumar Sur; Asian Growth Research Institute (AGI)", title: "The Legacy of Authoritarianism in a Democracy" },
+            { date: "2021/11/24", speaker: "Tsogsag Nyamdavaa; Hitotsubashi University", title: "Does Consumer Monitoring Reduce Corporate Tax Evasion Along the Supply Chain? Evidence from Mongolia" },
+            { date: "2021/11/17", speaker: "OSIPP Junior Faculty", title: "Guidance session on presentation" },
+            { date: "2021/11/10", speaker: "Junichi Kikuchi; ISER", title: "Fear of COVID-19 Contagion: The Idiosyncratic Effects of an Aggregate Pandemic Shock" },
+            { date: "2021/10/27", speaker: "Takeshi Murooka; OSIPP", title: "フィールド実験実施前の実験デザイン報告" },
+            { date: "2021/10/13", speaker: "Haoxing MA; OSIPP", title: "Benefit from Downgrading a Product" },
+            { date: "2021/1/6", speaker: "Kikuta Kyosuke; 菊田恭輔; OSIPP", title: "Irrational Conflict? African Football Players in Europe and Protests in their Original Countries" },
+            { date: "2021/1/27", speaker: "Hidenori Takahashi; 高橋秀典; OSIPP", title: "Justice Delayed is Justice Denied: Strategic Settlements in Medical Malpractice Lawsuits" },
+            { date: "2021/1/20", speaker: "Gideon Ponio; ギデオン・ポニオ; OSIPP-Research Student", title: "Regulatory capture in the port sector: a case study on the Philippines" },
+            { date: "2021/1/13", speaker: "Hiro Ishise; 石瀬寛和; OSIPP", title: "Railroads, International Trade and Income" },
+            { date: "2020/8/5", speaker: "Jun Goto; 後藤潤; Kobe", title: "Roots of Political Protests: Persistent Effects of Having Voting Rights in Macroeconomic Crises" },
+            { date: "2020/7/8", speaker: "Yumi Ishikawa; 石川祐実; OSIPP-D", title: "Does Financial Difficulty Damage Cognitive Function?" },
+            { date: "2020/7/29", speaker: "Mika Akesaka; 明坂弥香; ISER", title: "Complementarity in Couples' Retirement: The Effect of Mandatory Retirement Age Extension" },
+            { date: "2020/7/22", speaker: "Kyosuke Kikuta; 菊田恭輔; OSIPP", title: "Environmental Protection after Civil War: A Difference-in-Geographic-Discontinuity Approach" },
+            { date: "2020/7/14", speaker: "Ayako Matsuda; 松田絢子; Ritsumeikan", title: "新型コロナウィルスによる地方消費者の行動の変化及び最適な情報発信に関して" },
+            { date: "2020/7/1", speaker: "Ayaka Nakamura; 中村文香; Econ-D", title: "Does Compulsory Study Load Reduction Mitigate the Relative Age Effect?" },
+            { date: "2020/6/3", speaker: "Alfredo Alvarez; アルフレド・アルバレス; OSIPP-Research Student", title: "Contributions of the Hydrogen Sociotechnical System to Japan’s Energy Safety" },
+            { date: "2020/6/24", speaker: "Shuhei Kitamura; 北村周平; OSIPP", title: "Social Comparisons and Cooperation during COVID-19" },
+            { date: "2020/6/17", speaker: "Takuma Kamada; 鎌田拓馬; OSIPP", title: "The Crack Epidemic and the Rise and Persistence of Concentrated Poverty in the Inner City" },
+            { date: "2020/6/10", speaker: "Takeshi Murooka; 室岡健志; OSIPP", title: "Procrastinators in the Market" },
+            { date: "2020/5/20", speaker: "Olga Strelchenko; オリガ・ストレリチェンコ; Econ-D", title: "Fair trade: Product Differentiation and Warm Glow Effect" },
+            { date: "2020/5/13", speaker: "Dongqin Wang; オウトウキン; OSIPP-D", title: "Impacts of gold mining on Muslim women’s health: Evidence from rural Nigeria" },
+            { date: "2020/2/5", speaker: "Hirokazu Ishise; 石瀬寛和; OSIPP", title: "Religion as an informal institution" },
+            { date: "2020/12/9", speaker: "OSIPP junior faculty", title: "Guidance session on empirical research design" },
+            { date: "2020/12/23", speaker: "Yumi Ishikawa; 石川祐実; OSIPP-D", title: "How Does Maternal Education Effect on Preventive Health Behavior in Cambodia?" },
+            { date: "2020/12/16", speaker: "Mika Akesaka; 明坂弥香; ISER", title: "The Effects of Gender-Specific Local Labor Demand on Birth Outcomes" },
+            { date: "2020/11/4", speaker: "Yumi Saita; 才田友美; OSIPP", title: "建設物価を巡る論点と新しい指数の提案" },
+            { date: "2020/11/25", speaker: "OSIPP junior faculty", title: "Guidance session on oral presentation" },
+            { date: "2020/11/18", speaker: "Takeki Sunakawa; 砂川武貴; Hitotsubashi", title: "Sustainable Pricing in a Durable Goods Monopoly" },
+            { date: "2020/11/11", speaker: "Toshiki Miyashita; 宮下稔規; Econ-D", title: "Child Labor, Corruption, and Development" },
+            { date: "2020/10/7", speaker: "Olga Strelchenko; オリガ・ストレリチェンコ; Econ-D", title: "Fair Trade: Product Differentiation and Warm Glow Effect (with endogenous number of firms)" },
+            { date: "2020/10/28", speaker: "Takuma Kamada; 鎌田拓馬; OSIPP", title: "Family Structures After Terrorism: A Quantitative Case Study of the Tokyo Subway Sarin Attack in 1995" },
+            { date: "2020/10/21", speaker: "Ayaka Nakamura; 中村文香; Econ-D", title: "The Effect of Initial Job in Japanese Labor Market" },
+            { date: "2020/10/14", speaker: "Shingo Ishiguro; 石黒真吾; Econ", title: "Why Hierarchies? A Relational Contracting Approach" },
+            { date: "2020/1/9", speaker: "Marialuz Moreno Badia; マリアルス・モレノ・バディア; IMF", title: "Debt is not free" },
+            { date: "2020/1/29", speaker: "Miki Kohara; 小原美紀; OSIPP", title: "低体重出生が成長に与える負の影響の検証" },
+            { date: "2020/1/15", speaker: "Kyosuke Kikuta; 菊田恭輔; OSIPP", title: "Environmental Protection after Civil War: A Geographic Regression Discontinuity Analysis on Mining Regulations and Deforestation in the Democratic Republic of the Congo." },
+            { date: "2020/1/14", speaker: "Nguyen Vuong; グエン・ヴオン; Wisconsin-Madison-D", title: "Labor Market Impacts and Responses: The Economic Consequences of a Marine Environmental Disaster" },
+            { date: "2019/7/31", speaker: "Kazuma Inagaki; 稲垣一真; Econ-M", title: "Can the Heterogeneous Agent Model Generate Sudden Stops?" },
+            { date: "2019/7/3", speaker: "Mayuko Abe; 阿部眞子; OSIPP-M", title: "Outcomes of English Education at Elementary School in Japan" },
+            { date: "2019/7/24", speaker: "Akitoshi Muramoto; 村本顕理; OSIPP", title: "Price Announcement Effects in Sequential Auctions: An Experimental Study" },
+            { date: "2019/7/17", speaker: "Manami Tsuruta; 鶴田まなみ; Econ-D", title: "Reaction Time and Dishonesty" },
+            { date: "2019/7/10", speaker: "Mohamedou Nasser Dine; ナセル ダイン ; OSIPP-D", title: "Spatial Spillovers in Robbery Crime Rate in Japan" },
+            { date: "2019/6/5", speaker: "Mamiko Yamashita; 山下真美子; Toulouse-D", title: "Forecast comparison tests under fat-tails" },
+            { date: "2019/6/4", speaker: "Mao Nakayama; 中山真緒; Econ-D", title: "保育施設の存在は母親の就労を促進させるか" },
+            { date: "2019/6/26", speaker: "Akitada Kasahara; 笠原晃恭; Econ", title: "Empirical Analysis of Corporate Tax Reforms: What is the Null and Where Did It Come From?" },
+            { date: "2019/6/19", speaker: "Linh Bui; ブイ リン; OSIPP-D", title: "Does Microcredit Matter for Vulnerability? Fresh Empirical Evidence from Rural Vietnam" },
+            { date: "2019/6/12", speaker: "Kazuki Onji; 恩地一樹; Econ", title: "消費税における閾値と小規模企業の集積：2019年増税への展望" },
+            { date: "2019/5/8", speaker: "Noriaki Matsushima; 松島法明; ISER", title: "Exclusive Contracts in Durable Goods Markets" },
+            { date: "2019/5/29", speaker: "Kazuya Kikuchi; 菊地和也; ISER", title: "The Winner-Take-All Dilemma" },
+            { date: "2019/5/22", speaker: "Hayato Kato; 加藤隼人; Econ", title: "Economic integration and agglomeration of multinational production with transfer pricing" },
+            { date: "2019/5/15", speaker: "Dongqin Wong; 王冬琴; OSIPP-D", title: "The impact of religion and traditional practice on infectious disease: A case of Ebola in West Africa" },
+            { date: "2019/4/24", speaker: "Yuichiro Matsumoto; 松本雄一郎; Econ-D", title: "An Assignment Model of Markup Variation" },
+            { date: "2019/4/17", speaker: "Takeshi Murooka; 室岡健志; OSIPP", title: "Fragile Self-Esteem" },
+            { date: "2019/3/6", speaker: "Nobuo Yoshida; 吉田信生; World Bank", title: "Machine Learning (ML) for poverty measurement – How ML fails and how to overcome it" },
+            { date: "2019/3/20", speaker: "Kei Takakura; 高倉啓; Econ-M", title: "Child mortality, fertility, child labor and economic growth" },
+            { date: "2019/2/8", speaker: "Hirokazu Ishise; 石瀬寛和; OSIPP", title: "Nominal Exchange Rate Volatility, Nominal Wage Rigidity, and the Pattern of Trade" },
+            { date: "2019/2/20", speaker: "OSIPP junior faculty members; OSIPP教員", title: "Guidance session on empirical research design" },
+            { date: "2019/2/19", speaker: "Seung-Gyu Sim; 沈承揆; Aoyama Gakuin", title: "Can Prosocial Attitudes Be Nurtured? Experimental Evidence from the Scholarship Program Reform by Korea University" },
+            { date: "2019/12/25", speaker: "Masanori Tsuruoka; 鶴岡昌徳; Yokohama National University", title: "Effects of Increased Competition on Prices and Quality: Evidence from Public-works Procurement" },
+            { date: "2019/12/23", speaker: "Motoaki Takahashi; 高橋資哲; Penn State-D", title: "International Trade and Regional Unemployment" },
+            { date: "2019/12/11", speaker: "OSIPP faculty members; OSIPP教員", title: "Guidance session on research design & method (Difference-in-Differences)" },
+            { date: "2019/11/6", speaker: "Noriko Inakura; 稲倉典子; OSIPP", title: "日本における所得階層別の栄養摂取と栄養素価格指数の長期的推計" },
+            { date: "2019/11/27", speaker: "Charles Genki Shimokura; 霜倉チャールズ元気; Econ-M", title: "Can defaults promote pro-environmental behavior in social dilemma situation? An experimental study of green nudge on household waste disposal in the Philippines" },
+            { date: "2019/11/25", speaker: "Taisuke Imai; 今井泰佑; LMU Munich", title: "Approximate Expected Utility Rationalization" },
+            { date: "2019/11/20", speaker: "Ahmad Zaky Zamani; アフマド ザキ ザマニ; OSIPP-D", title: "Behavioural Responses to Presumptive Income Tax Policy: Evidence from Turnover Tax in Indonesia" },
+            { date: "2019/11/13", speaker: "OSIPP faculty members; OSIPP教員", title: "Guidance session on academic presentation" },
+            { date: "2019/10/9", speaker: "Sun-Bin Kim; スンビン キム; Yonsei University", title: "How Sticky Wages In Existing Jobs Can Affect Hiring" },
+            { date: "2019/10/30", speaker: "Fumio Ohtake; 大竹文雄; Econ", title: "予防的避難の促進ナッジ" },
+            { date: "2019/10/23", speaker: "Tsuyoshi Goto; 後藤剛志; Econ-D", title: "非正規の地方公務員の増加要因の分析" },
+            { date: "2019/10/2", speaker: "Mao Nakayama; 中山真緒; Econ-D (DC1)", title: "情報提供が求職者のジョブサーチに与える影響" },
+            { date: "2019/10/16", speaker: "Nobuyuki Hanaki; 花木伸行; ISER", title: "An experimental comparison of two mechanisms for implementing Shapley value" },
+            { date: "2019/1/9", speaker: "Ryo Horii; 堀井亮; ISER", title: "A Multi-factor Uzawa Growth Theorem and Endogenous Capital-Augmenting Technological Change" },
+            { date: "2019/1/23", speaker: "Tamon Asonuma; 阿曽沼多聞; IMF", title: "Sovereign Debt Overhang, Expenditure Composition, and Debt Restructurings" },
+            { date: "2018/8/2", speaker: "Mamiko Yamashita; 山下真美子; Toulouse", title: "Systemic Value-at-Risk" },
+            { date: "2018/7/6", speaker: "Tomoharu Mori; 森知晴; Ritsumeikan", title: "The Impact of Test Score Labels on University Choice: A Regression Discontinuity Design Approach" },
+            { date: "2018/7/25", speaker: "Ai Takeuchi; 竹内あい; Ritsumeikan", title: "Do People Free-ride When it is Rational to Cooperate? An Experimental Analysis" },
+            { date: "2018/7/18", speaker: "Mao Nakayama; 中山真緒; Econ-D", title: "出生体重が子どもの成長に与える影響" },
+            { date: "2018/7/13", speaker: "Yukari Iwanami; 岩波由香里; Osaka City", title: "Asymmetric Burden-Sharing and the Reassurance Effect of Alliances" },
+            { date: "2018/6/8", speaker: "Kozo Kiyota; 清田耕造; Keio", title: "Potentials and Impediments for Foreign Direct Investment in Japan" },
+            { date: "2018/6/27", speaker: "Yani Karavasilev; ヤニ カラヴァシレフ; OSIPP", title: "Job fairs and company attractiveness perceptions: Evidence from Japanese companies recruiting overseas" },
+            { date: "2018/6/20", speaker: "Kenta Kojima; 小嶋 健太; Kansai", title: "Successful Jobs and Dead-end Jobs in a Bureaucracy: Evidence from Japan" },
+            { date: "2018/6/13", speaker: "Shuhei Kitamura; 北村周平; OSIPP", title: "Eliciting Political Preferences From Neural Activities" },
+            { date: "2018/6/11", speaker: "Akifumi Ishihara; 石原章史; GRIPS", title: "Asymmetric Product Line and Multi-homing" },
+            { date: "2018/5/9", speaker: "Ayako Matsuda; 松田絢子; OSIPP-PD", title: "Financial Inclusion and Female Empowerment: Evidence from Honduras" },
+            { date: "2018/5/30", speaker: "So Kubota; 久保田荘 ; Tokyo", title: "Culture and Labor Supply: Decline in Female Market Work in Turkey" },
+            { date: "2018/5/16", speaker: "Keitaro Aoyagi; 青柳恵太郎; Metrics Work Consultants", title: "Impact Evaluation of the Vocational Training Program for Ex-combatants and Other People with Disabilities in Post-conflict Rwanda" },
+            { date: "2018/4/6", speaker: "Hideshi Itoh; 伊藤秀史; Waseda", title: "Image Concerns in the Principal-Agent Relationships" },
+            { date: "2018/4/25", speaker: "Yuichiro Matsumoto; 松本雄一郎; Econ-D", title: "Globalization, Market Power, and the Top Income Inequality" },
+            { date: "2018/4/18", speaker: "Takeshi Murooka; 室岡健志; OSIPP", title: "徳島県におけるフィールド実験の設計について" },
+            { date: "2018/4/11", speaker: "Katsuya Takii; 瀧井克也; OSIPP", title: "How Does an Entrance Examination Reform in Higher Education Change Managers’ Academic Background?" },
+            { date: "2018/2/8", speaker: "Erika Seki; 関絵里香; Econ", title: "Coordination and Free-riding Problems in Blood Donations" },
+            { date: "2018/2/1", speaker: "Masato Nishiwaki; 西脇雅人; Econ", title: "Bounding the Probability of Collusion" },
+            { date: "2018/12/19", speaker: "Tsuyoshi Goto; 後藤剛志; Econ-D", title: "Creative Accounting and Municipal Mergers: A Theoretical and Empirical Approach" },
+            { date: "2018/12/18", speaker: "Tomoki Fujii; 藤井朋樹; Singapore Management", title: "Conditional Cash Transfer and Loss Aversion: Evidence from a Randomized Field Experiment in Bangladesh" },
+            { date: "2018/12/14", speaker: "Shinsuke Tanaka; 田中伸介; Tufts", title: "Spring Forward and Fall Back on Health: the Effect of Daylight Saving Time on Acute Myocardial Infarction" },
+            { date: "2018/12/12", speaker: "Hideto Koizumi; 小泉秀人; UPenn Wharton", title: "Model as A Tool: Estimation of Hyperbolic Discounting Models without Narratives" },
+            { date: "2018/11/7", speaker: "Tengku Munawar Chalil; テング マナワル チャリル; OSIPP-D", title: "How Much Is Your Vote? Opportunistic Business Cycle of Grant Expenditure in Indonesia’s Local Elections" },
+            { date: "2018/11/28", speaker: "Noriko Inakura; 稲倉典子; Osaka Sangyo", title: "栄養素単価の長期推計" },
+            { date: "2018/11/21", speaker: "OSIPP junior faculty members; OSIPP教員", title: "Research presentation workshop for students" },
+            { date: "2018/11/14", speaker: "Klarizze Anne Martin Puzon; クラリス プゾン; ISER", title: "Regional Identity and Intergenerational Resource Conflict" },
+            { date: "2018/10/3", speaker: "Oscar Bajo-Rubio; オスカル バジョルビオ; Castilla-La Mancha", title: "A Multi-country Analysis of Austerity Policies in the European Union" },
+            { date: "2018/10/24", speaker: "Yosuke Yasuda; 安田洋祐; Econ", title: "A Simple Economics of Inequality: Market Design Approach" },
+            { date: "2018/10/17", speaker: "Tetsuya Matsubayashi & Shuhei Kitamura; 松林哲也・北村周平; OSIPP", title: "Procrastinating Voters: Evidence from Japanese Elections" },
+            { date: "2018/10/10", speaker: "Yuichiro Matsumoto; 松本雄一郎; Econ-D", title: "Income Distribution and Industry Development" },
+            { date: "2018/1/25", speaker: "Yuichiro Matsumoto; 松本雄一郎; Econ-D", title: "Income Distribution and Industry Development" },
+            { date: "2018/1/11", speaker: "Hirokazu Ishise; 石瀬寛和; OSIPP", title: "Trend Inflation, Nominal Wage Rigidity, and Comparative Advantage" },
+            { date: "2017/8/3", speaker: "Shuhei Kitamura; 北村周平; OSIPP", title: "The Persuasive Role of Public Service Broadcasting: Evidence from a Field Experiment in the Tokyo Metropolitan Area" },
+            { date: "2017/7/6", speaker: "Miki Kohara; 小原美紀; OSIPP", title: "Work and Health in Japan" },
+            { date: "2017/7/27", speaker: "Ayako Matsuda; 松田絢子; OSIPP-PD", title: "Risk Aversion and Demand for Weather Index Insurance" },
+            { date: "2017/7/13", speaker: "Bipasha Maity; ビパシャ メイティ; OSIPP-PD/Ashoka", title: "The Legacy of Female Landlords in India" },
+            { date: "2017/6/8", speaker: "Hiroki Kubo; 久保浩樹; OSIPP", title: "Explaining Citizen Perceptions of Party Ideological Positions: The Mediating Role of Political Contexts" },
+            { date: "2017/6/29", speaker: "Masakuyu Kudamatsu; 下松真之; OSIPP", title: "Frozen Conflicts: The Impact of Unrecognized States on Post-Conflict Recovery" },
+            { date: "2017/6/22", speaker: "Takeshi Murooka; 室岡健志; OSIPP", title: "A Theory of Taxation in Markets with Deceptive Contracts" },
+            { date: "2017/6/1", speaker: "Yuichiro Matsumoto; 松本雄一郎; Econ-D", title: "Product Market Competition and Financial Market Screening" },
+            { date: "2017/5/25", speaker: "Tetsuya Matsubayashi; 松林哲也; OSIPP", title: "Economic Inequality and Socioeconomic Bias in Voter Turnout: A Cross-National Analysis" },
+            { date: "2017/5/11", speaker: "Hirokazu Ishise; 石瀬寛和; OSIPP", title: "Trade Implications of Trend Inflation" },
+            { date: "2017/4/27", speaker: "Katsuya Takii; 瀧井克也; OSIPP", title: "Domestic Debt as a Commitment Device" },
+            { date: "2017/4/13", speaker: "Takeshi Murooka; 室岡健志; OSIPP", title: "Consumer Exploitation in Competitive Markets" },
+            { date: "2017/12/7", speaker: "Kazuki Onji; 恩地一樹; Econ", title: "Stock Ownership Bunching" },
+            { date: "2017/12/14", speaker: "Tsunehiro Otsuki; 大槻恒裕; OSIPP", title: "An Analysis of the Impact of Food Safety Standards on Trade using the Generalized Gravity Model" },
+            { date: "2017/11/9", speaker: "Nobuo Akai; 赤井伸朗; OSIPP", title: "The Role of Matching Grants as a Commitment Device in the Federation Model with a Repeated Soft Budget Setting" },
+            { date: "2017/11/2", speaker: "Tetsuya Matsubayashi; 松林哲也; OSIPP", title: "Impersonal Mobilization and Voter Turnout: Evidence from Japan" },
+            { date: "2017/10/7", speaker: "Aya Nushimoto; 塗師本彩; Econ-D", title: "就職支援プログラムと若年失業者の健康 大阪わかものハローワークにおけるトレーニング成果" },
+            { date: "2017/10/28", speaker: "Keitaro Aoyagi; 青柳恵太郎; Metrics Work Consultants", title: "フィールド実験における実務者連携のコツ JICAにおけるRCT実践の経験から" },
+            { date: "2017/10/14", speaker: "Yuichiro Matsumoto; 松本雄一郎; Econ-D", title: "Quality Dependent Transportation Costs and Wage Inequality" }
+        ];
+
+        let currentSort = { column: 'date', direction: 'desc' };
+        let filteredRows = [...seminarData];
+        // 1ページあたりの表示件数を30に変更
+        const rowsPerPage = 30;
+        let currentPage = 1;
+
+        function updateSortIcons() {
+            document.querySelectorAll('.sort-header').forEach(el => {
+                el.classList.remove('active');
+                const icon = el.querySelector('.sort-icon');
+                if (icon) {
+                    icon.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 15l5 5 5-5M7 9l5-5 5 5"/></svg>';
+                }
+            });
+
+            const activeHeader = document.querySelector(`[data-sort="${currentSort.column}"]`);
+            if (activeHeader) {
+                activeHeader.classList.add('active');
+                const icon = activeHeader.querySelector('.sort-icon');
+                if (currentSort.direction === 'asc') {
+                    icon.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 11l-5-5-5 5M12 19V6"/></svg>';
+                } else {
+                    icon.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 13l5 5 5-5M12 5v13"/></svg>';
+                }
+            }
+        }
+
+        function sortData() {
+            filteredRows.sort((a, b) => {
+                let valA = a[currentSort.column];
+                let valB = b[currentSort.column];
+
+                if (currentSort.column === 'date') {
+                    valA = new Date(valA);
+                    valB = new Date(valB);
+                } else {
+                    valA = valA.toLowerCase();
+                    valB = valB.toLowerCase();
+                }
+
+                if (valA < valB) return currentSort.direction === 'asc' ? -1 : 1;
+                if (valA > valB) return currentSort.direction === 'asc' ? 1 : -1;
+                return 0;
+            });
+        }
+
+        function initTableControls() {
+            const searchInput = document.getElementById('seminar-search-input');
+            searchInput.addEventListener('input', (e) => {
+                const term = e.target.value.toLowerCase().trim();
+                filteredRows = seminarData.filter(item => {
+                    return item.date.includes(term) || 
+                           item.speaker.toLowerCase().includes(term) || 
+                           item.title.toLowerCase().includes(term);
+                });
+                currentPage = 1;
+                sortData();
+                updateTableDisplay();
+            });
+
+            document.querySelectorAll('.sort-header').forEach(header => {
+                header.addEventListener('click', () => {
+                    const col = header.getAttribute('data-sort');
+                    if (currentSort.column === col) {
+                        currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+                    } else {
+                        currentSort.column = col;
+                        currentSort.direction = 'asc';
+                    }
+                    sortData();
+                    updateTableDisplay();
+                });
+            });
+
+            sortData();
+            updateTableDisplay();
+        }
+
+        function updateTableDisplay() {
+            const tbody = document.getElementById('seminar-tbody');
+            const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
+            tbody.innerHTML = '';
+
+            const start = (currentPage - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+            const pageItems = filteredRows.slice(start, end);
+
+            pageItems.forEach(item => {
+                const tr = document.createElement('tr');
+                tr.className = "border-b border-gray-50 hover:bg-gray-50 transition duration-200 group";
+                tr.innerHTML = `
+                    <td class="p-4 align-top text-gray-500 text-sm font-medium">${item.date}</td>
+                    <td class="p-4 align-top text-gray-700 font-medium">${item.speaker}</td>
+                    <td class="p-4 align-top">
+                        <div class="text-navy font-bold text-base md:text-lg mb-1 group-hover:text-blue-700 transition">${item.title}</div>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            document.getElementById('no-results').classList.toggle('hidden', filteredRows.length > 0);
+            updateSortIcons();
+            renderPaginationControls(totalPages);
+        }
+
+        function renderPaginationControls(totalPages) {
+            const container = document.getElementById('pagination-controls');
+            container.innerHTML = '';
+            if (totalPages <= 1) return;
+
+            const prevBtn = document.createElement('button');
+            prevBtn.textContent = '前へ';
+            prevBtn.className = `px-3 py-1 border rounded text-sm transition ${currentPage === 1 ? 'text-gray-400 bg-gray-50 cursor-not-allowed' : 'text-navy hover:bg-gray-100'}`;
+            prevBtn.disabled = currentPage === 1;
+            prevBtn.onclick = () => { if (currentPage > 1) { currentPage--; updateTableDisplay(); window.scrollTo({ top: 300, behavior: 'smooth' }); } };
+            container.appendChild(prevBtn);
+
+            for (let i = 1; i <= totalPages; i++) {
+                const btn = document.createElement('button');
+                btn.textContent = i;
+                btn.className = `px-3 py-1 border rounded text-sm transition ${i === currentPage ? 'bg-blue-600 text-white font-bold border-blue-600' : 'text-navy hover:bg-gray-100'}`;
+                btn.onclick = () => { currentPage = i; updateTableDisplay(); window.scrollTo({ top: 300, behavior: 'smooth' }); };
+                container.appendChild(btn);
+            }
+
+            const nextBtn = document.createElement('button');
+            nextBtn.textContent = '次へ';
+            nextBtn.className = `px-3 py-1 border rounded text-sm transition ${currentPage === totalPages ? 'text-gray-400 bg-gray-50 cursor-not-allowed' : 'text-navy hover:bg-gray-100'}`;
+            nextBtn.disabled = currentPage === totalPages;
+            nextBtn.onclick = () => { if (currentPage < totalPages) { currentPage++; updateTableDisplay(); window.scrollTo({ top: 300, behavior: 'smooth' }); } };
+            container.appendChild(nextBtn);
+        }
+
+        const menuBtn = document.getElementById('menu-btn');
+        const mainMenu = document.getElementById('main-menu');
+        const bars = [document.getElementById('bar1'), document.getElementById('bar2'), document.getElementById('bar3')];
+        menuBtn.addEventListener('click', () => {
+            const isActive = mainMenu.classList.toggle('active');
+            if (isActive) {
+                bars[0].style.transform = 'translateY(8px) rotate(45deg)'; bars[1].style.opacity = '0'; bars[2].style.transform = 'translateY(-8px) rotate(-45deg)';
+            } else {
+                bars[0].style.transform = 'none'; bars[1].style.opacity = '1'; bars[2].style.transform = 'none';
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', initTableControls);
+    </script>
+</body>
+</html>
