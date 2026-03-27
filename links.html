@@ -41,16 +41,24 @@
         }
 
         /* カレンダーのレスポンシブコンテナ */
+        .calendar-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+        }
         .calendar-container {
             position: relative;
             width: 100%;
+            height: 0;
             padding-top: 75%; /* 4:3のアスペクト比 */
             overflow: hidden;
             border-radius: 0.75rem;
             border: 1px solid #e5e7eb;
+            background-color: #f8fafc;
         }
-        @media (min-width: 768px) {
-            .calendar-container { padding-top: 600px; } /* デスクトップでは高さを固定気味に */
+        @media (min-width: 1024px) {
+            .calendar-container { 
+                padding-top: 700px; /* デスクトップで1ヶ月分を余裕を持って表示する高さ */
+            }
         }
         .calendar-container iframe {
             position: absolute;
@@ -140,7 +148,7 @@
         </div>
     </div>
 <!-- Main Content Area -->
-     <main>
+   <main>
         <!-- ヒーローセクション -->
         <section class="relative h-[300px] md:h-[350px] flex items-center justify-center overflow-hidden">
             <div class="absolute inset-0">
@@ -156,7 +164,7 @@
 
         <!-- メインコンテンツ -->
         <section class="py-16 md:py-24 bg-white">
-            <div class="container mx-auto px-4 max-w-4xl">
+            <div class="container mx-auto px-4 max-w-5xl">
                 
                 <!-- 大阪大学の研究者 -->
                 <div class="mb-20">
@@ -178,15 +186,17 @@
                 </div>
 
                 <!-- Google カレンダーセクション -->
-                <div class="mb-20">
-                    <h3 class="text-2xl md:text-3xl section-title">Research Seminars in Osaka</h3>
-                    <div class="calendar-container">
-                        <iframe src="https://calendar.google.com/calendar/embed?src=osakaecon%40gmail.com&amp;ctz=Asia%2FTokyo" style="border: 0" frameborder="0" scrolling="no"></iframe>
+                <div class="mb-24">
+                    <h3 class="text-2xl md:text-3xl section-title text-center after:left-1/2 after:-translate-x-1/2">Research Seminars in Osaka</h3>
+                    <div class="calendar-wrapper">
+                        <div class="calendar-container shadow-sm">
+                            <iframe src="https://calendar.google.com/calendar/embed?src=osakaecon%40gmail.com&amp;ctz=Asia%2FTokyo" style="border: 0" frameborder="0" scrolling="no"></iframe>
+                        </div>
                     </div>
                 </div>
 
                 <!-- 研究発表会（豊中） -->
-                <div class="mb-20">
+                <div class="mb-20 pt-10 border-t border-gray-100">
                     <h3 class="text-2xl md:text-3xl section-title">大学院豊中キャンパスでの研究発表会</h3>
                     <div class="space-y-4">
                         <a href="https://www.osipp.osaka-u.ac.jp/ja/cepo/upcoming-lunch-seminars/" target="_blank" rel="noopener noreferrer" class="link-card group">
@@ -272,6 +282,8 @@
             </div>
         </section>
     </main>
+
+
 
 
     <!-- フッター (全ページ共通) -->
@@ -363,7 +375,7 @@
     </footer>
 
     <!-- JavaScript：UI制御ロジック -->
-   <script>
+    <script>
         const menuBtn = document.getElementById('menu-btn');
         const mainMenu = document.getElementById('main-menu');
         const b1 = document.getElementById('bar1');
