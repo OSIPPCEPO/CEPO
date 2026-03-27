@@ -227,137 +227,182 @@
         </div>
     </div>
 <!-- Main Content Area -->
-    <main>
+     <main>
         <!-- ヒーローセクション -->
-        <section class="relative h-[350px] md:h-[400px] flex items-center justify-center overflow-hidden">
+        <section class="relative h-[300px] md:h-[350px] flex items-center justify-center overflow-hidden">
             <div class="absolute inset-0">
-                <!-- 代替テキスト内の文字も削除 -->
-                <img src="https://images.unsplash.com/photo-1523050853063-bd80e292472b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" alt="" class="w-full h-full object-cover">
+                <img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" alt="" class="w-full h-full object-cover">
                 <div class="absolute inset-0 hero-overlay"></div>
             </div>
             <div class="container mx-auto px-4 relative z-10 text-center text-white">
                 <p class="text-xs md:text-sm font-bold tracking-[0.4em] mb-4 uppercase opacity-80">Center for Evidence-based Policy</p>
-                <h2 class="text-2xl md:text-5xl font-bold mb-4 leading-tight">OSIPPの教育</h2>
-                <p class="text-sm md:text-lg font-medium opacity-90">学生生活 研究について</p>
+                <h2 class="text-2xl md:text-5xl font-bold mb-4 leading-tight">Members</h2>
+                <p class="text-sm md:text-lg font-medium opacity-90">研究を推進する構成員</p>
             </div>
         </section>
 
-        <!-- 教育プログラム紹介 -->
+        <!-- メンバー紹介セクション -->
         <section class="py-16 md:py-24 bg-white">
             <div class="container mx-auto px-4 max-w-4xl">
-                <div class="mb-16">
-                    <h3 class="text-2xl md:text-3xl section-title">データ解析の学び</h3>
-                    <p class="text-gray-700 mb-8 leading-relaxed">
-                        OSIPPでは Center for Evidence-Based Policy Making（CEPO）のメンバーが データ解析の予備知識がない方でも安心して参加できる講座を複数開催しています 実践的な内容をわかりやすく学べるよう工夫されたプログラムで 以下のような講座をご用意しています
+                <div class="mb-12 text-center">
+                    <h3 class="text-2xl md:text-3xl section-title inline-block">CEPOメンバーの紹介</h3>
+                    <p class="text-gray-700 leading-relaxed max-w-2xl mx-auto mt-6">
+                        以下は CEPOに所属するメンバーの紹介です 各メンバーの専門分野の概要 詳細なプロフィール 連絡先などは 専用のWebページからご覧いただけます
                     </p>
-                    <ul class="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-700">
-                        <li class="flex items-start space-x-3">
-                            <span class="w-1.5 h-1.5 bg-blue-600 rounded-full mt-2.5 shrink-0"></span>
-                            <span>統計学</span>
-                        </li>
-                        <li class="flex items-start space-x-3">
-                            <span class="w-1.5 h-1.5 bg-blue-600 rounded-full mt-2.5 shrink-0"></span>
-                            <span>計量経済学</span>
-                        </li>
-                        <li class="flex items-start space-x-3">
-                            <span class="w-1.5 h-1.5 bg-blue-600 rounded-full mt-2.5 shrink-0"></span>
-                            <span>プログラミングとデータ管理</span>
-                        </li>
-                        <li class="flex items-start space-x-3">
-                            <span class="w-1.5 h-1.5 bg-blue-600 rounded-full mt-2.5 shrink-0"></span>
-                            <span>研究とフィールド実験の設計方法</span>
-                        </li>
-                        <li class="flex items-start space-x-2 md:col-span-2">
-                            <span class="w-1.5 h-1.5 bg-blue-600 rounded-full mt-2.5 shrink-0"></span>
-                            <span>経済理論（ミクロ経済学 マクロ経済学 国際経済学 公共経済学 行動経済学 政治経済学 その他）</span>
-                        </li>
-                    </ul>
                 </div>
 
-                <!-- 重要なコース -->
-                <div class="pt-16 border-t border-gray-100">
-                    <h3 class="text-2xl md:text-3xl section-title">Evidence-Based Policy MakingのためのOSIPPの重要なコース</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
+                <!-- 検索欄 -->
+                <div class="search-container">
+                    <div class="search-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    </div>
+                    <input type="text" id="member-search" class="search-input" placeholder="名前や専門分野で検索">
+                </div>
+
+                <div id="members-list">
+                    <!-- ディレクター -->
+                    <div class="mb-16 section-group" id="section-director">
+                        <h4 class="text-sm font-bold tracking-[0.2em] text-gray-400 uppercase mb-6 border-b border-gray-100 pb-2">Director</h4>
                         <div class="space-y-4">
-                            <div class="p-4 bg-navy-light rounded-lg border-l-4 border-navy">
-                                <p class="font-bold text-navy">Social Science Research Methods</p>
-                            </div>
-                            <div class="p-4 bg-navy-light rounded-lg border-l-4 border-navy">
-                                <p class="font-bold text-navy">計量データ分析I</p>
-                            </div>
-                            <div class="p-4 bg-navy-light rounded-lg border-l-4 border-navy">
-                                <p class="font-bold text-navy">計量データ分析II</p>
-                            </div>
-                            <div class="p-4 bg-navy-light rounded-lg border-l-4 border-navy">
-                                <p class="font-bold text-navy">Data Management & Analysis</p>
-                            </div>
-                            <div class="p-4 bg-navy-light rounded-lg border-l-4 border-navy">
-                                <p class="font-bold text-navy">経済数学</p>
-                            </div>
-                            <div class="p-4 bg-navy-light rounded-lg border-l-4 border-navy">
-                                <p class="font-bold text-navy">ミクロ経済分析I(価格理論)</p>
-                            </div>
+                            <a href="#" class="member-link group" data-name="赤井 伸郎" data-specialty="公共経済学">
+                                <div class="flex flex-col md:flex-row md:items-center justify-between gap-2">
+                                    <div>
+                                        <span class="text-xl font-bold text-navy mr-4">赤井 伸郎</span>
+                                        <span class="text-sm text-gray-500">教授</span>
+                                    </div>
+                                    <div class="text-sm text-gray-600">公共経済学</div>
+                                </div>
+                            </a>
                         </div>
+                    </div>
+
+                    <!-- メンバー -->
+                    <div class="mb-16 section-group" id="section-members">
+                        <h4 class="text-sm font-bold tracking-[0.2em] text-gray-400 uppercase mb-6 border-b border-gray-100 pb-2">Members</h4>
                         <div class="space-y-4">
-                            <div class="p-4 bg-navy-light rounded-lg border-l-4 border-navy">
-                                <p class="font-bold text-navy">ミクロ経済分析II(ゲーム理論)</p>
-                            </div>
-                            <div class="p-4 bg-navy-light rounded-lg border-l-4 border-navy">
-                                <p class="font-bold text-navy">マクロ経済分析</p>
-                            </div>
-                            <div class="p-4 bg-navy-light rounded-lg border-l-4 border-navy">
-                                <p class="font-bold text-navy">Econometric Methods</p>
-                            </div>
-                            <div class="p-4 bg-navy-light rounded-lg border-l-4 border-navy">
-                                <p class="font-bold text-navy">Advanced Econometric Methods</p>
-                            </div>
-                            <div class="p-4 bg-navy-light rounded-lg border-l-4 border-navy">
-                                <p class="font-bold text-navy">Microeconomic Theory</p>
-                            </div>
-                            <div class="p-4 bg-navy-light rounded-lg border-l-4 border-navy">
-                                <p class="font-bold text-navy">Macroeconomic Theory</p>
-                            </div>
+                            <a href="#" class="member-link group" data-name="生藤 昌子" data-specialty="マクロ経済学 環境経済学">
+                                <div class="flex flex-col md:flex-row md:items-center justify-between gap-2">
+                                    <div>
+                                        <span class="text-xl font-bold text-navy mr-4">生藤 昌子</span>
+                                        <span class="text-sm text-gray-500">教授</span>
+                                    </div>
+                                    <div class="text-sm text-gray-600">マクロ経済学 環境経済学</div>
+                                </div>
+                            </a>
+                            
+                            <a href="#" class="member-link group" data-name="石瀬 寛和" data-specialty="マクロ経済学 国際経済学">
+                                <div class="flex flex-col md:flex-row md:items-center justify-between gap-2">
+                                    <div>
+                                        <span class="text-xl font-bold text-navy mr-4">石瀬 寛和</span>
+                                        <span class="text-sm text-gray-500">准教授</span>
+                                    </div>
+                                    <div class="text-sm text-gray-600">マクロ経済学 国際経済学</div>
+                                </div>
+                            </a>
+
+                            <a href="#" class="member-link group" data-name="鎌田 拓馬" data-specialty="犯罪学 都市社会学 社会的不平等">
+                                <div class="flex flex-col md:flex-row md:items-center justify-between gap-2">
+                                    <div>
+                                        <span class="text-xl font-bold text-navy mr-4">鎌田 拓馬</span>
+                                        <span class="text-sm text-gray-500">准教授</span>
+                                    </div>
+                                    <div class="text-sm text-gray-600">犯罪学 都市社会学 社会的不平等</div>
+                                </div>
+                            </a>
+
+                            <a href="#" class="member-link group" data-name="川窪 悦章" data-specialty="国際経済学 組織の経済学 公共経済学">
+                                <div class="flex flex-col md:flex-row md:items-center justify-between gap-2">
+                                    <div>
+                                        <span class="text-xl font-bold text-navy mr-4">川窪 悦章</span>
+                                        <span class="text-sm text-gray-500">講師</span>
+                                    </div>
+                                    <div class="text-sm text-gray-600">国際経済学 組織の経済学 公共経済学</div>
+                                </div>
+                            </a>
+
+                            <a href="#" class="member-link group" data-name="小原 美紀" data-specialty="労働経済学 応用計量経済学">
+                                <div class="flex flex-col md:flex-row md:items-center justify-between gap-2">
+                                    <div>
+                                        <span class="text-xl font-bold text-navy mr-4">小原 美紀</span>
+                                        <span class="text-sm text-gray-500">教授</span>
+                                    </div>
+                                    <div class="text-sm text-gray-600">労働経済学 応用計量経済学</div>
+                                </div>
+                            </a>
+
+                            <a href="#" class="member-link group" data-name="松林 哲也" data-specialty="政治学 政治経済学 社会医学">
+                                <div class="flex flex-col md:flex-row md:items-center justify-between gap-2">
+                                    <div>
+                                        <span class="text-xl font-bold text-navy mr-4">松林 哲也</span>
+                                        <span class="text-sm text-gray-500">教授</span>
+                                    </div>
+                                    <div class="text-sm text-gray-600">政治学 政治経済学 社会医学</div>
+                                </div>
+                            </a>
+
+                            <a href="#" class="member-link group" data-name="西山 克彦" data-specialty="健康 医療保険 労働">
+                                <div class="flex flex-col md:flex-row md:items-center justify-between gap-2">
+                                    <div>
+                                        <span class="text-xl font-bold text-navy mr-4">西山 克彦</span>
+                                        <span class="text-sm text-gray-500">講師</span>
+                                    </div>
+                                    <div class="text-sm text-gray-600">健康 医療保険 労働</div>
+                                </div>
+                            </a>
+
+                            <a href="#" class="member-link group" data-name="大槻 恒裕" data-specialty="開発経済学">
+                                <div class="flex flex-col md:flex-row md:items-center justify-between gap-2">
+                                    <div>
+                                        <span class="text-xl font-bold text-navy mr-4">大槻 恒裕</span>
+                                        <span class="text-sm text-gray-500">教授</span>
+                                    </div>
+                                    <div class="text-sm text-gray-600">開発経済学</div>
+                                </div>
+                            </a>
+
+                            <a href="#" class="member-link group" data-name="瀧井 克也" data-specialty="人材配置の経済学 人と組織の経済学 サーチとマッチングの理論">
+                                <div class="flex flex-col md:flex-row md:items-center justify-between gap-2">
+                                    <div>
+                                        <span class="text-xl font-bold text-navy mr-4">瀧井 克也</span>
+                                        <span class="text-sm text-gray-500">教授</span>
+                                    </div>
+                                    <div class="text-sm text-gray-600">人材配置の経済学 人と組織の経済学 サーチとマッチングの理論</div>
+                                </div>
+                            </a>
+
+                            <a href="#" class="member-link group" data-name="山下 真美子" data-specialty="金融計量経済学 ファイナンス">
+                                <div class="flex flex-col md:flex-row md:items-center justify-between gap-2">
+                                    <div>
+                                        <span class="text-xl font-bold text-navy mr-4">山下 真美子</span>
+                                        <span class="text-sm text-gray-500">助教</span>
+                                    </div>
+                                    <div class="text-sm text-gray-600">金融計量経済学 ファイナンス</div>
+                                </div>
+                            </a>
                         </div>
                     </div>
                 </div>
 
-                <!-- 取得するためのポイント（強調セクション） -->
-                <div class="mt-24 p-8 md:p-12 bg-slate-50 border border-gray-200 rounded-2xl shadow-sm">
-                    <h3 class="text-2xl md:text-3xl font-bold text-navy mb-12 text-center">CEPOメンバーの指導学生として修士 博士号を取得するためのポイント</h3>
-                    
-                    <div class="space-y-12 text-gray-700">
-                        <div class="border-l-4 border-navy pl-6">
-                            <h4 class="text-xl font-bold text-navy mb-4">研究生から修士課程へ</h4>
-                            <p class="text-sm md:text-base leading-relaxed">
-                                研究生の身分を 修士課程の学生になるための準備として利用することができます 研究生として来日し 研究計画書の書き方講座や経済学基礎講座などを受講し その後 OSIPPの修士課程入試に応募することができます 入学試験の合格を保証するものではありませんが OSIPPの修士号取得のためのスキルアップにつながります
-                            </p>
-                        </div>
-
-                        <div class="border-l-4 border-navy pl-6">
-                            <h4 class="text-xl font-bold text-navy mb-4">修士課程学生から博士課程学生へ</h4>
-                            <p class="text-sm md:text-base leading-relaxed">
-                                OSIPPの博士課程に在籍し CEPOメンバーの指導学生となるためには Evidence-Based Policy Makingのための研究を行うための必須スキルを身につけ 論文を書く能力を証明することが重要です 特に CEPOメンバーは ミクロ経済学 マクロ経済学 計量経済学の各科目の成績を 重要だと考えています これらの科目の履修条件は 指導教員によって異なる場合があります 博士課程の学生になるための条件は 指導教員にお尋ねください
-                            </p>
-                        </div>
-                    </div>
+                <div id="no-results" class="hidden py-12 text-center text-gray-400">
+                    該当するメンバーは見つかりませんでした
                 </div>
                 
 　　　　　　　　<div class="mt-24 grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <a href="application.html" class="banner-box group">
+                    <a href="publications.html" class="banner-box group">
                         <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" alt="応募について">
                         <div class="banner-overlay"></div>
                         <div class="banner-content">
                             <div class="cepo-logo-circle"><span class="text-xs font-bold">CEPO</span></div>
-                            <div class="banner-text-main">応募について（CEPO）</div>
+                            <div class="banner-text-main">publications</div>
                         </div>
                     </a>
                     
-                    <a href="cepo_support.html" class="banner-box group">
+                    <a href="past lunch seminer.html" class="banner-box group">
                         <img src="https://images.unsplash.com/photo-1521791136364-798a7bc0d26e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" alt="サポートサービス">
                         <div class="banner-overlay"></div>
                         <div class="banner-content">
                             <div class="cepo-logo-circle"><span class="text-xs font-bold">CEPO</span></div>
-                            <div class="banner-text-main">CEPOサポートサービス</div>
+                            <div class="banner-text-main">過去のランチセミナー</div>
                         </div>
                     </a>
                 </div>
@@ -463,7 +508,42 @@
     </footer>
 
     <!-- JavaScript：UI制御ロジック -->
-   <script>
+  <script>
+        // 検索機能のロジック
+        const searchInput = document.getElementById('member-search');
+        const memberLinks = document.querySelectorAll('.member-link');
+        const sections = document.querySelectorAll('.section-group');
+        const noResults = document.getElementById('no-results');
+
+        searchInput.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase().trim();
+            let hasAnyMatch = false;
+
+            sections.forEach(section => {
+                let sectionHasMatch = false;
+                const sectionMembers = section.querySelectorAll('.member-link');
+                
+                sectionMembers.forEach(member => {
+                    const name = member.getAttribute('data-name').toLowerCase();
+                    const specialty = member.getAttribute('data-specialty').toLowerCase();
+                    
+                    if (name.includes(term) || specialty.includes(term)) {
+                        member.style.display = 'block';
+                        sectionHasMatch = true;
+                        hasAnyMatch = true;
+                    } else {
+                        member.style.display = 'none';
+                    }
+                });
+
+                // セクション内にヒットがなければ見出しごと隠す
+                section.style.display = sectionHasMatch ? 'block' : 'none';
+            });
+
+            noResults.classList.toggle('hidden', hasAnyMatch);
+        });
+
+        // ハンバーガーメニュー制御
         const menuBtn = document.getElementById('menu-btn');
         const mainMenu = document.getElementById('main-menu');
         const b1 = document.getElementById('bar1');
