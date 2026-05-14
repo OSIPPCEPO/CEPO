@@ -499,25 +499,7 @@
         </div>
     </footer>
 
-    <script>
-        // ページ遷移ロジック
-        function showPage(pageId) {
-            // メニューが開いていれば閉じる
-            const mainMenu = document.getElementById('main-menu');
-            mainMenu.classList.remove('active');
-            updateMenuBars(false);
-
-            // すべてのビューを非表示にする
-            const views = document.querySelectorAll('.page-view');
-            views.forEach(v => v.classList.remove('active'));
-
-            // 指定されたページを表示する
-            document.getElementById(pageId + '-view').classList.add('active');
-
-            // ページ最上部へスクロール
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
+     <script>
         // ハンバーガーメニュー制御
         const menuBtn = document.getElementById('menu-btn');
         const mainMenu = document.getElementById('main-menu');
@@ -542,70 +524,57 @@
             updateMenuBars(isActive);
         });
 
-        // スポイラー制御
-        const spoilers = document.querySelectorAll('.spoiler-toggle');
-        spoilers.forEach(toggle => {
-            toggle.addEventListener('click', () => {
-                const item = toggle.parentElement;
-                item.classList.toggle('active');
-            });
-        });
-
-        // メニュー外クリックで閉じる
-        document.addEventListener('click', (e) => {
-            if (!menuBtn.contains(e.target) && !mainMenu.contains(e.target)) {
-                mainMenu.classList.remove('active');
-                updateMenuBars(false);
-            }
-        });
-
-        // 出版物テーブルのページネーション制御
+        // 検索とページネーションの統合制御
         const rowsPerPage = 10;
-        let currentPubPage = 1;
-        let totalPubPages = 1;
-        let pubRows = [];
-        let filteredPubRows = [];
+        let currentPage = 1;
+        let totalPages = 1;
+        let allRows = [];
+        let filteredRows = [];
 
-        function initPagination() {
-            const tbody = document.getElementById('publications-tbody');
+        function initTableControls() {
+            const tbody = document.getElementById('award-tbody');
             if (!tbody) return;
-            pubRows = Array.from(tbody.querySelectorAll('tr'));
-            filteredPubRows = [...pubRows];
-            totalPubPages = Math.ceil(filteredPubRows.length / rowsPerPage);
             
-            const searchInput = document.getElementById('pub-search-input');
-            if (searchInput && !searchInput.dataset.bound) {
-                searchInput.addEventListener('input', handlePubSearch);
-                searchInput.dataset.bound = "true";
+            allRows = Array.from(tbody.querySelectorAll('tr'));
+            filteredRows = [...allRows];
+            
+            const searchInput = document.getElementById('award-search-input');
+            if (searchInput) {
+                searchInput.addEventListener('input', handleSearch);
             }
 
-            renderTable(currentPubPage);
-            renderPaginationControls();
+            updateTableDisplay();
         }
 
-        function handlePubSearch(e) {
-            const query = e.target.value.toLowerCase();
-            filteredPubRows = pubRows.filter(row => {
-                return row.textContent.toLowerCase().includes(query);
+        function handleSearch(e) {
+            const term = e.target.value.toLowerCase().trim();
+            
+            filteredRows = allRows.filter(row => {
+                return row.textContent.toLowerCase().includes(term);
             });
-            currentPubPage = 1;
-            totalPubPages = Math.ceil(filteredPubRows.length / rowsPerPage);
             
-            renderTable(currentPubPage);
-            renderPaginationControls();
+            currentPage = 1;
+            updateTableDisplay();
         }
 
-        function renderTable(page) {
-            pubRows.forEach(row => row.style.display = 'none');
+        function updateTableDisplay() {
+            totalPages = Math.ceil(filteredRows.length / rowsPerPage);
             
-            const start = (page - 1) * rowsPerPage;
+            allRows.forEach(row => row.style.display = 'none');
+            
+            const start = (currentPage - 1) * rowsPerPage;
             const end = start + rowsPerPage;
             
-            filteredPubRows.forEach((row, index) => {
+            filteredRows.forEach((row, index) => {
                 if (index >= start && index < end) {
                     row.style.display = '';
                 }
             });
+
+            const noResults = document.getElementById('no-results');
+            noResults.classList.toggle('hidden', filteredRows.length > 0);
+
+            renderPaginationControls();
         }
 
         function renderPaginationControls() {
@@ -613,50 +582,54 @@
             if (!container) return;
             container.innerHTML = '';
 
-            if (totalPubPages <= 1) return;
+            if (totalPages <= 1) return;
 
             const prevBtn = document.createElement('button');
             prevBtn.textContent = '前へ';
-            prevBtn.className = `px-3 md:px-4 py-1 md:py-2 border rounded transition ${currentPubPage === 1 ? 'text-gray-400 bg-gray-50 cursor-not-allowed' : 'text-navy hover:bg-gray-100'}`;
-            prevBtn.disabled = currentPubPage === 1;
+            prevBtn.className = `px-3 md:px-4 py-1 md:py-2 border rounded text-sm transition ${currentPage === 1 ? 'text-gray-400 bg-gray-50 cursor-not-allowed' : 'text-navy hover:bg-gray-100'}`;
+            prevBtn.disabled = currentPage === 1;
             prevBtn.onclick = () => {
-                if (currentPubPage > 1) {
-                    currentPubPage--;
-                    renderTable(currentPubPage);
-                    renderPaginationControls();
+                if (currentPage > 1) {
+                    currentPage--;
+                    updateTableDisplay();
+                    window.scrollTo({ top: 300, behavior: 'smooth' });
                 }
             };
             container.appendChild(prevBtn);
 
-            for (let i = 1; i <= totalPubPages; i++) {
+            for (let i = 1; i <= totalPages; i++) {
                 const btn = document.createElement('button');
                 btn.textContent = i;
-                btn.className = `px-3 md:px-4 py-1 md:py-2 border rounded transition ${currentPubPage === i ? 'bg-blue-600 text-white font-bold border-blue-600' : 'text-navy hover:bg-gray-100'}`;
+                btn.className = `px-3 md:px-4 py-1 md:py-2 border rounded text-sm transition ${i === currentPage ? 'bg-blue-600 text-white font-bold border-blue-600' : 'text-navy hover:bg-gray-100'}`;
                 btn.onclick = () => {
-                    currentPubPage = i;
-                    renderTable(currentPubPage);
-                    renderPaginationControls();
+                    currentPage = i;
+                    updateTableDisplay();
+                    window.scrollTo({ top: 300, behavior: 'smooth' });
                 };
                 container.appendChild(btn);
             }
 
             const nextBtn = document.createElement('button');
             nextBtn.textContent = '次へ';
-            nextBtn.className = `px-3 md:px-4 py-1 md:py-2 border rounded transition ${currentPubPage === totalPubPages ? 'text-gray-400 bg-gray-50 cursor-not-allowed' : 'text-navy hover:bg-gray-100'}`;
-            nextBtn.disabled = currentPubPage === totalPubPages;
+            nextBtn.className = `px-3 md:px-4 py-1 md:py-2 border rounded text-sm transition ${currentPage === totalPages ? 'text-gray-400 bg-gray-50 cursor-not-allowed' : 'text-navy hover:bg-gray-100'}`;
+            nextBtn.disabled = currentPage === totalPages;
             nextBtn.onclick = () => {
-                if (currentPubPage < totalPubPages) {
-                    currentPubPage++;
-                    renderTable(currentPubPage);
-                    renderPaginationControls();
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    updateTableDisplay();
+                    window.scrollTo({ top: 300, behavior: 'smooth' });
                 }
             };
             container.appendChild(nextBtn);
         }
 
-        // ページ読み込み時にページネーションを初期化
-        document.addEventListener('DOMContentLoaded', () => {
-            initPagination();
+        document.addEventListener('DOMContentLoaded', initTableControls);
+
+        document.addEventListener('click', (e) => {
+            if (mainMenu.classList.contains('active') && !menuBtn.contains(e.target) && !mainMenu.contains(e.target)) {
+                mainMenu.classList.remove('active');
+                updateMenuBars(false);
+            }
         });
     </script>
 </body>
