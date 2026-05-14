@@ -148,3 +148,93 @@
         }
     </style>
 </head>
+<body class="bg-white">
+
+    <!-- Navigation Bar -->
+    <header class="header-navy text-white sticky top-0 z-50 shadow-md">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <a class="flex items-center space-x-3 cursor-pointer" href="index_en.html">
+                <div class="border-l-2 border-white/40 pl-3">
+                    <p class="text-[10px] md:text-xs tracking-widest opacity-80 leading-none mb-1 uppercase">Osaka University / OSIPP</p>
+                    <h1 class="text-lg md:text-xl font-bold tracking-tight leading-none">
+                        CEPO <span class="font-normal text-xs md:text-base ml-1 md:ml-2">Center for Evidence-Based Policy Making</span>
+                    </h1>
+                </div>
+            </a>
+            <div class="flex items-center space-x-3 md:space-x-5">
+                <!-- Link to Japanese Site -->
+                <a href="exchange.html" class="flex items-center space-x-2 text-[10px] md:text-xs font-bold tracking-widest border border-white/30 pl-2 pr-3 py-1 rounded hover:bg-white/10 transition uppercase">
+                    <div class="w-4 h-4 rounded-full overflow-hidden flex-shrink-0 shadow-sm border border-white/10">
+                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="50" cy="50" r="50" fill="white"/>
+                            <circle cx="50" cy="50" r="20" fill="#BC002D"/>
+                        </svg>
+                    </div>
+                    <span>Japanese</span>
+                </a>
+                
+                <button id="menu-btn" class="p-2 focus:outline-none flex items-center space-x-3 group">
+                    <span class="text-xs font-bold tracking-widest hidden sm:inline">MENU</span>
+                    <div class="relative w-6 h-5">
+                        <span id="bar1" class="absolute block w-6 h-0.5 bg-white transition-all duration-300 top-0"></span>
+                        <span id="bar2" class="absolute block w-6 h-0.5 bg-white transition-all duration-300 top-2"></span>
+                        <span id="bar3" class="absolute block w-6 h-0.5 bg-white transition-all duration-300 top-4"></span>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Expanded Menu -->
+    <div id="main-menu" class="fixed inset-x-0 bg-slate-900 text-white z-40 border-t border-slate-700 shadow-2xl overflow-y-auto max-h-[85vh]">
+        <div class="container mx-auto px-6 py-12">
+            <nav class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-4">
+                <div class="flex flex-col">
+                    <a href="index_en.html" class="flex items-center p-4 hover:bg-white/5 rounded transition border-b border-white/10 md:border-none font-bold">
+                        <span class="text-blue-400 mr-3 text-xs">01</span> CepoHome
+                    </a>
+                </div>
+                <div class="flex flex-col">
+                    <a href="#" class="flex items-center p-4 hover:bg-white/5 rounded transition border-b border-white/10 md:border-none font-bold">
+                        <span class="text-blue-400 mr-3 text-xs">02</span> Activities
+                    </a>
+                    <div class="pl-12 flex flex-col space-y-3 pb-4 pt-2">
+                        <a href="publications_en.html" class="text-sm text-gray-400 hover:text-white transition">Publications</a>
+                        <a href="https://docs.google.com/spreadsheets/d/1nTMQU5SLe1nx_VV4HUmrQhgtqkUtfwCLIfmnBXL6TPw/edit?gid=523803508#gid=523803508" class="text-sm text-gray-400 hover:text-white transition">Lunch Seminar Announcements</a>
+                        <a href="past lunch seminar_en.html" class="text-sm text-gray-400 hover:text-white transition">Past Lunch Seminars</a>
+                        <a href="discussion papers_en.html" class="text-sm text-gray-400 hover:text-white transition">Discussion Papers</a>
+                        <a href="research project_en.html" class="text-sm text-gray-400 hover:text-white transition">Research Cooperation Projects</a>
+                        <a href="awards_en.html" class="text-sm text-gray-400 hover:text-white transition">Awards</a>
+                        <a href="exchange_en.html" class="text-sm text-gray-400 hover:text-white transition">Online Exchange Meetings</a>
+                        <a href="cepo event_en.html" class="text-sm text-gray-400 hover:text-white transition">CEPO Events</a>
+                    </div>
+                </div>
+                <div class="flex flex-col">
+                    <a href="members_en.html" class="flex items-center p-4 hover:bg-white/5 rounded transition border-b border-white/10 md:border-none font-bold">
+                        <span class="text-blue-400 mr-3 text-xs">03</span> Members
+                    </a>
+                </div>
+                <div class="flex flex-col">
+                    <a href="#" class="flex items-center p-4 hover:bg-white/5 rounded transition border-b border-white/10 md:border-none font-bold">
+                        <span class="text-blue-400 mr-3 text-xs">04</span> For Prospective Students
+                    </a>
+                    <div class="pl-12 flex flex-col space-y-3 pb-4 pt-2">
+                        <a href="education_en.html" class="text-sm text-gray-400 hover:text-white transition">Education at OSIPP</a>
+                        <a href="application_en.html" class="text-sm text-gray-400 hover:text-white transition">How to Apply</a>
+                        <a href="cepo_support_en.html" class="text-sm text-gray-400 hover:text-white transition">CEPO Support Services</a>
+                        <a href="forscience_enginer_en.html" class="text-sm text-gray-400 hover:text-white transition">For STEM Students</a>
+                    </div>
+                </div>
+                <div class="flex flex-col">
+                    <a href="EBPM data_en.html" class="flex items-center p-4 hover:bg-white/5 rounded transition border-b border-white/10 md:border-none font-bold">
+                        <span class="text-blue-400 mr-3 text-xs">05</span> EBPM Data
+                    </a>
+                </div>
+                <div class="flex flex-col">
+                    <a href="links_en.html" class="flex items-center p-4 hover:bg-white/5 rounded transition border-b border-white/10 md:border-none font-bold">
+                        <span class="text-blue-400 mr-3 text-xs">06</span> Links
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </div>
