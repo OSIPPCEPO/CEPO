@@ -135,141 +135,191 @@
 
     <!-- Home View Area -->
     <main>
-        <section class="bg-navy-light py-12 md:py-20 min-h-screen">
-            <div class="container mx-auto px-4 max-w-4xl">
-                <!-- 戻るリンク -->
-                <a href="index_en.html" class="text-navy font-bold flex items-center mb-8 hover:underline">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                    </svg>
-                    Back to home
-                </a>
-                
-                <div class="bg-white rounded-3xl shadow-xl overflow-hidden">
-                    <div class="header-navy p-8 md:p-12 text-white">
-                        <p class="text-sm opacity-80 mb-2 tracking-widest uppercase">Center for Evidence-Based Policy Making</p>
-                        <h2 class="text-2xl md:text-4xl font-bold leading-tight">
-                            Online exchange meeting with alumni<br class="hidden md:block">who studied data analysis at OSIPP
-                        </h2>
-                    </div>
-                    
-                    <div class="p-8 md:p-12 space-y-10">
-                        <div class="text-gray-700 leading-relaxed space-y-4 text-sm md:text-base">
-                            <p>This event provides a valuable opportunity to learn firsthand how the data analysis skills cultivated at OSIPP are utilized in alumni careers after graduation.
-Please find past event records and reports at the link below.</p>
-                        </div>
+        <!-- Hero Section -->
+        <section class="relative h-[300px] md:h-[400px] flex items-center justify-center overflow-hidden">
+            <div class="absolute inset-0">
+                <img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" alt="" class="w-full h-full object-cover">
+                <div class="absolute inset-0 hero-overlay"></div>
+            </div>
+            <div class="container mx-auto px-4 relative z-10 text-center text-white">
+                <p class="text-xs md:text-sm font-bold tracking-[0.4em] mb-4 uppercase opacity-80">Center for Evidence based Policy</p>
+                <h2 class="text-3xl md:text-6xl font-bold mb-4 leading-tight">Members</h2>
+                <p class="text-sm md:text-lg font-medium opacity-90">Members promoting research</p>
+            </div>
+        </section>
 
-                        <!-- 開催記録リスト -->
-                        <div class="space-y-6">
-                             <!-- 2026年 -->
-                            <div class="bg-white border border-gray-100 shadow-sm rounded-xl p-6 relative overflow-hidden">
-                                <div class="absolute top-0 left-0 w-1.5 h-full bg-blue-600"></div>
-                                <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
-                                    <h3 class="text-xl font-bold text-navy flex items-center">
-                                       2026 Networking Event
-                                        <span class="ml-3 text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full font-normal">Confirmed</span>
-                                    </h3>
-                                    <p class="text-sm text-gray-500 mt-2 md:mt-0 font-medium">Date: June 6, 2026</p>
+        <!-- Member Introduction Section -->
+        <section class="py-16 md:py-28 bg-white">
+            <div class="container mx-auto px-4 max-w-6xl">
+                <div class="mb-16 text-center">
+                    <h3 class="text-2xl md:text-3xl section-title inline-block">Introduction of CEPO Members</h3>
+                    <p class="text-gray-700 leading-relaxed max-w-3xl mx-auto mt-8 text-base">
+                        Below is an introduction to the members affiliated with CEPO You can view an overview of each members specialized field detailed profile and contact information from their dedicated web page
+                    </p>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="search-container mb-12">
+                    <div class="relative w-full md:w-1/2 mx-auto">
+                        <div class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                        </div>
+                        <input type="text" id="member-search" class="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-full focus:outline-none focus:border-blue-500 text-sm md:text-base text-gray-700 bg-gray-50 transition-all" placeholder="Search by name or specialized field">
+                    </div>
+                </div>
+
+                <div id="members-list">
+                    <!-- Members -->
+                    <div class="mb-24 section-group" id="section-members">
+                        <h4 class="text-sm font-bold tracking-[0.3em] text-gray-400 uppercase mb-10 border-b border-gray-100 pb-4">Members</h4>
+                        <div class="flex flex-col gap-8">
+                             <a href="https://www.osipp.osaka-u.ac.jp/ja/cepo/akai-nobuo/" class="member-link group block border border-gray-100 p-6 rounded-xl hover:border-blue-300 transition" data-name="Nobuo Akai" data-specialty="Public Economics">
+                                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                                    <div>
+                                        <span class="text-2xl font-bold text-navy mr-6 group-hover:text-blue-700 transition">Nobuo Akai</span>
+                                        <span class="text-base text-gray-500">Professor</span>
+                                    </div>
+                                    <div class="text-base text-gray-600 font-medium">Public Economics</div>
                                 </div>
-                                <div class="flex flex-wrap gap-3 mt-4">
-                                    <a href="https://www.osipp.osaka-u.ac.jp/ja/topics/cepo20260606/" target="_blank" class="inline-flex items-center text-sm font-medium bg-gray-50 border border-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-white hover:text-blue-600 transition">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                                       Information Page
-                                    </a>
-                                    <span class="inline-flex items-center text-sm font-medium bg-gray-50 border border-gray-100 text-gray-400 px-4 py-2 rounded cursor-not-allowed">
-                                        Event Report (Not Reported)
-                                    </span>
-                                </div>
-                            </div>
+                            </a>
                             
-                            <!-- 2025年 -->
-                            <div class="bg-white border border-gray-100 shadow-sm rounded-xl p-6 relative overflow-hidden">
-                                <div class="absolute top-0 left-0 w-1.5 h-full bg-gray-300"></div>
-                                <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
-                                    <h3 class="text-xl font-bold text-navy flex items-center">
-                                       2025 Networking Event
-                                    </h3>
-                                    <p class="text-sm text-gray-500 mt-2 md:mt-0 font-medium">Date: June 21, 2025</p>
+                            <a href="https://www.osipp.osaka-u.ac.jp/ja/osipp-faculty/ikefuji-masako/" class="member-link group block border border-gray-100 p-6 rounded-xl hover:border-blue-300 transition" data-name="Masako Ikefuji" data-specialty="Macroeconomics Environmental Economics">
+                                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                                    <div>
+                                        <span class="text-2xl font-bold text-navy mr-6 group-hover:text-blue-700 transition">Masako Ikefuji</span>
+                                        <span class="text-base text-gray-500">Professor</span>
+                                    </div>
+                                    <div class="text-base text-gray-600 font-medium">Macroeconomics Environmental Economics</div>
                                 </div>
-                                <div class="flex flex-wrap gap-3 mt-4">
-                                    <a href="https://www.osipp.osaka-u.ac.jp/ja/topics/cepo20250621/" target="_blank" class="inline-flex items-center text-sm font-medium bg-gray-50 border border-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-white hover:text-blue-600 transition">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                                       Information Page
-                                    </a>
-                                    <a href="https://news.osipp.osaka-u.ac.jp/?p=16033" target="_blank" class="inline-flex items-center text-sm font-medium bg-gray-50 border border-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-white hover:text-blue-600 transition">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
-                                        Event Report
-                                    </a>
+                            </a>
+                            
+                            <a href="https://www.osipp.osaka-u.ac.jp/ja/osipp-faculty/ishise-hirokazu/" class="member-link group block border border-gray-100 p-6 rounded-xl hover:border-blue-300 transition" data-name="Hirokazu Ishise" data-specialty="Macroeconomics International Economics">
+                                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                                    <div>
+                                        <span class="text-2xl font-bold text-navy mr-6 group-hover:text-blue-700 transition">Hirokazu Ishise</span>
+                                        <span class="text-base text-gray-500">Associate Professor</span>
+                                    </div>
+                                    <div class="text-base text-gray-600 font-medium">Macroeconomics International Economics</div>
                                 </div>
-                            </div>
+                            </a>
 
-                            <!-- 2024年 -->
-                            <div class="bg-white border border-gray-100 shadow-sm rounded-xl p-6 relative overflow-hidden">
-                                <div class="absolute top-0 left-0 w-1.5 h-full bg-gray-300"></div>
-                                <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
-                                    <h3 class="text-xl font-bold text-navy flex items-center">
-                                        2024 Networking Event
-                                    </h3>
-                                    <p class="text-sm text-gray-500 mt-2 md:mt-0 font-medium">Date: May 13, 2024</p>
+                            <a href="https://www.osipp.osaka-u.ac.jp/ja/osipp-faculty/kamada-takuma/" class="member-link group block border border-gray-100 p-6 rounded-xl hover:border-blue-300 transition" data-name="Takuma Kamada" data-specialty="Criminology Urban Sociology Social Inequality">
+                                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                                    <div>
+                                        <span class="text-2xl font-bold text-navy mr-6 group-hover:text-blue-700 transition">Takuma Kamada</span>
+                                        <span class="text-base text-gray-500">Associate Professor</span>
+                                    </div>
+                                    <div class="text-base text-gray-600 font-medium">Criminology Urban Sociology Social Inequality</div>
                                 </div>
-                                <div class="flex flex-wrap gap-3 mt-4">
-                                    <a href="https://www.osipp.osaka-u.ac.jp/ja/topics/cepo-meeting-with-alumni2024/" target="_blank" class="inline-flex items-center text-sm font-medium bg-gray-50 border border-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-white hover:text-blue-600 transition">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                                        Information Page
-                                    </a>
-                                    <span class="inline-flex items-center text-sm font-medium bg-gray-50 border border-gray-100 text-gray-400 px-4 py-2 rounded cursor-not-allowed">
-                                        Event Report (Not Reported)
-                                    </span>
-                                </div>
-                            </div>
+                            </a>
 
-                            <!-- 2023年 -->
-                            <div class="bg-white border border-gray-100 shadow-sm rounded-xl p-6 relative overflow-hidden">
-                                <div class="absolute top-0 left-0 w-1.5 h-full bg-gray-300"></div>
-                                <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
-                                    <h3 class="text-xl font-bold text-navy flex items-center">
-                                        2023 Networking Event
-                                    </h3>
-                                    <p class="text-sm text-gray-500 mt-2 md:mt-0 font-medium">Date: June 4, 2023</p>
+                            <a href="https://www.osipp.osaka-u.ac.jp/ja/osipp-faculty/kawakubo-takafumi/" class="member-link group block border border-gray-100 p-6 rounded-xl hover:border-blue-300 transition" data-name="Takafumi Kawakubo" data-specialty="International Economics Economics of Organization Public Economics">
+                                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                                    <div>
+                                        <span class="text-2xl font-bold text-navy mr-6 group-hover:text-blue-700 transition">Takafumi Kawakubo</span>
+                                        <span class="text-base text-gray-500">Lecturer</span>
+                                    </div>
+                                    <div class="text-base text-gray-600 font-medium">International Economics Economics of Organization Public Economics</div>
                                 </div>
-                                <div class="flex flex-wrap gap-3 mt-4">
-                                    <a href=https://www.osipp.osaka-u.ac.jp/ja/topics/cepo-meeting-with-alumni2023/" target="_blank" class="inline-flex items-center text-sm font-medium bg-gray-50 border border-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-white hover:text-blue-600 transition">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                                        Information Page
-                                    </a>
-                                    <a href="https://news.osipp.osaka-u.ac.jp/?p=12753" target="_blank" class="inline-flex items-center text-sm font-medium bg-gray-50 border border-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-white hover:text-blue-600 transition">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
-                                        Event Report
-                                    </a>
-                                </div>
-                            </div>
+                            </a>
 
-                            <!-- 2022年 -->
-                            <div class="bg-white border border-gray-100 shadow-sm rounded-xl p-6 relative overflow-hidden">
-                                <div class="absolute top-0 left-0 w-1.5 h-full bg-gray-300"></div>
-                                <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
-                                    <h3 class="text-xl font-bold text-navy flex items-center">
-                                        2022 Networking Event
-                                    </h3>
-                                    <p class="text-sm text-gray-500 mt-2 md:mt-0 font-medium">Date: June 17, 2022</p>
+                            <a href="https://www.osipp.osaka-u.ac.jp/ja/osipp-faculty/kohara-miki/" class="member-link group block border border-gray-100 p-6 rounded-xl hover:border-blue-300 transition" data-name="Miki Kohara" data-specialty="Labor Economics Applied Econometrics">
+                                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                                    <div>
+                                        <span class="text-2xl font-bold text-navy mr-6 group-hover:text-blue-700 transition">Miki Kohara</span>
+                                        <span class="text-base text-gray-500">Professor</span>
+                                    </div>
+                                    <div class="text-base text-gray-600 font-medium">Labor Economics Applied Econometrics</div>
                                 </div>
-                                <div class="flex flex-wrap gap-3 mt-4">
-                                    <a href=https://www.osipp.osaka-u.ac.jp/ja/topics/to-students-of-the-graduate-school-of-international-public-policy/" target="_blank" class="inline-flex items-center text-sm font-medium bg-gray-50 border border-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-white hover:text-blue-600 transition">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                                        Information Page
-                                    </a>
-                                    <a href="https://news.osipp.osaka-u.ac.jp/?p=10984" target="_blank" class="inline-flex items-center text-sm font-medium bg-gray-50 border border-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-white hover:text-blue-600 transition">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
-                                        Event Report</a>
+                            </a>
+
+                            <a href="https://www.osipp.osaka-u.ac.jp/ja/osipp-faculty/matsubayashi-tetsuya/" class="member-link group block border border-gray-100 p-6 rounded-xl hover:border-blue-300 transition" data-name="Tetsuya Matsubayashi" data-specialty="Political Science Political Economy Social Medicine">
+                                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                                    <div>
+                                        <span class="text-2xl font-bold text-navy mr-6 group-hover:text-blue-700 transition">Tetsuya Matsubayashi</span>
+                                        <span class="text-base text-gray-500">Professor</span>
+                                    </div>
+                                    <div class="text-base text-gray-600 font-medium">Political Science Political Economy Social Medicine</div>
                                 </div>
-                            </div>
+                            </a>
+
+                            <a href="https://www.osipp.osaka-u.ac.jp/ja/osipp-faculty/nishiyama-katsuhiko/" class="member-link group block border border-gray-100 p-6 rounded-xl hover:border-blue-300 transition" data-name="Katsuhiko Nishiyama" data-specialty="Health Health Insurance Labor">
+                                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                                    <div>
+                                        <span class="text-2xl font-bold text-navy mr-6 group-hover:text-blue-700 transition">Katsuhiko Nishiyama</span>
+                                        <span class="text-base text-gray-500">Lecturer</span>
+                                    </div>
+                                    <div class="text-base text-gray-600 font-medium">Health Health Insurance Labor</div>
+                                </div>
+                            </a>
+
+                            <a href="https://www.osipp.osaka-u.ac.jp/ja/osipp-faculty/otsuki-tsunehiro/" class="member-link group block border border-gray-100 p-6 rounded-xl hover:border-blue-300 transition" data-name="Tsunehiro Otsuki" data-specialty="Development Economics">
+                                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                                    <div>
+                                        <span class="text-2xl font-bold text-navy mr-6 group-hover:text-blue-700 transition">Tsunehiro Otsuki</span>
+                                        <span class="text-base text-gray-500">Professor</span>
+                                    </div>
+                                    <div class="text-base text-gray-600 font-medium">Development Economics</div>
+                                </div>
+                            </a>
+
+                            <a href="https://www.osipp.osaka-u.ac.jp/ja/osipp-faculty/takii-katsuya/" class="member-link group block border border-gray-100 p-6 rounded-xl hover:border-blue-300 transition" data-name="Katsuya Takii" data-specialty="Economics of Personnel Allocation Economics of People and Organizations Theory of Search and Matching">
+                                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                                    <div>
+                                        <span class="text-2xl font-bold text-navy mr-6 group-hover:text-blue-700 transition">Katsuya Takii</span>
+                                        <span class="text-base text-gray-500">Professor</span>
+                                    </div>
+                                    <div class="text-base text-gray-600 font-medium">Economics of Personnel Allocation Economics of People and Organizations Theory of Search and Matching</div>
+                                </div>
+                            </a>
+
+                            <a href="https://www.osipp.osaka-u.ac.jp/ja/osipp-faculty/yamashita-mamiko/" class="member-link group block border border-gray-100 p-6 rounded-xl hover:border-blue-300 transition" data-name="Mamiko Yamashita" data-specialty="Financial Econometrics Finance">
+                                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                                    <div>
+                                        <span class="text-2xl font-bold text-navy mr-6 group-hover:text-blue-700 transition">Mamiko Yamashita</span>
+                                        <span class="text-base text-gray-500">Assistant Professor</span>
+                                    </div>
+                                    <div class="text-base text-gray-600 font-medium">Financial Econometrics Finance</div>
+                                </div>
+                            </a>
                         </div>
                     </div>
+                </div>
+
+                <div id="no-results" class="hidden py-16 text-center text-gray-400 text-lg">
+                    No matching members found
+                </div>
+                
+                <div class="mt-24 grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <a href="publications_en.html" class="banner-box group">
+                        <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" alt="Publications">
+                        <div class="banner-overlay"></div>
+                        <div class="banner-content">
+                            <div class="cepo-logo-circle"><span class="text-xs font-bold">CEPO</span></div>
+                            <div class="banner-text-main">Publications</div>
+                        </div>
+                    </a>
+                    
+                    <a href="past_lunch_seminer_en.html" class="banner-box group">
+                        <img src="https://images.unsplash.com/photo-1521791136364-798a7bc0d26e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" alt="Past Lunch Seminars">
+                        <div class="banner-overlay"></div>
+                        <div class="banner-content">
+                            <div class="cepo-logo-circle"><span class="text-xs font-bold">CEPO</span></div>
+                            <div class="banner-text-main">Past Lunch Seminars</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="mt-20 text-center">
+                    <a href="index_en.html" class="text-navy font-bold hover:underline inline-flex items-center text-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                        </svg>
+                        Back to Home
+                    </a>
                 </div>
             </div>
         </section>
     </main>
-
     <!-- Footer -->
     <footer class="bg-slate-900 text-white pt-16 pb-10">
         <div class="container mx-auto px-4 text-center md:text-left">
