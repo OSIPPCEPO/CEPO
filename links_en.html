@@ -15,31 +15,91 @@
         .bg-navy-light { background-color: #f0f4f8; }
         .border-navy { border-color: #003366; }
         
-        /* Menu Animation */
+        /* メニューアニメーション */
         #main-menu { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); transform: translateY(-20px); opacity: 0; pointer-events: none; }
         #main-menu.active { transform: translateY(0); opacity: 1; pointer-events: auto; }
         
         .hero-overlay { background: linear-gradient(rgba(0,51,102,0.7), rgba(0,51,102,0.4)); }
 
-        /* Spoiler Styles */
-        .spoiler-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
-        .spoiler-item.active .spoiler-content { max-height: 5000px; padding-bottom: 1.5rem; }
-        .spoiler-item.active .spoiler-icon { transform: rotate(180deg); }
+        /* セクション共通スタイル */
+        .section-title { position: relative; padding-bottom: 1rem; margin-bottom: 2.5rem; font-weight: 700; color: #003366; }
+        .section-title::after { content: ''; position: absolute; left: 0; bottom: 0; width: 3rem; height: 2px; background-color: #003366; }
+        
+        .link-card {
+            display: block;
+            padding: 1.5rem;
+            background-color: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.75rem;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+        .link-card:hover {
+            border-color: #003366;
+            background-color: #f9fafb;
+            transform: translateX(4px);
+        }
 
-        /* Banner Box Styles */
-        .banner-box { position: relative; height: 240px; overflow: hidden; display: flex; align-items: center; justify-content: center; color: white; transition: transform 0.3s ease, box-shadow 0.3s ease; }
-        @media (min-width: 1024px) { .banner-box { height: 300px; } }
-        .banner-box:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+        /* カレンダーのレスポンシブコンテナ */
+        .calendar-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .calendar-container {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-top: 75%; /* 4:3のアスペクト比 */
+            overflow: hidden;
+            border-radius: 0.75rem;
+            border: 1px solid #e5e7eb;
+            background-color: #f8fafc;
+        }
+        @media (min-width: 1024px) {
+            .calendar-container { 
+                padding-top: 700px; /* デスクトップで1ヶ月分を余裕を持って表示する高さ */
+            }
+        }
+        .calendar-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* バナーアイコンのスタイル */
+        .banner-box { 
+            position: relative; 
+            height: 240px; 
+            overflow: hidden; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            color: white; 
+            transition: transform 0.3s ease, box-shadow 0.3s ease; 
+            border-radius: 1rem;
+            text-decoration: none;
+        }
+        .banner-box:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.15); }
         .banner-box img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; }
-        .banner-overlay { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.55); z-index: 1; }
-        .banner-content { position: relative; z-index: 2; text-align: center; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 0 15px; }
-        .cepo-logo-circle { width: 70px; height: 70px; background: rgba(0, 31, 63, 0.95); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: 12px; flex-shrink: 0; }
-        @media (min-width: 768px) { .cepo-logo-circle { width: 90px; height: 90px; } }
-        .banner-text-bottom { position: absolute; bottom: 15px; left: 0; right: 0; font-weight: 500; letter-spacing: 0.02em; font-size: 0.75rem; padding: 0 12px; line-height: 1.5; }
-        @media (min-width: 768px) { .banner-text-bottom { bottom: 25px; font-size: 1rem; } }
-
-        .page-view { display: none; }
-        .page-view.active { display: block; }
+        .banner-overlay { position: absolute; inset: 0; background: rgba(0, 31, 63, 0.65); z-index: 1; transition: background 0.3s ease; }
+        .banner-box:hover .banner-overlay { background: rgba(0, 31, 63, 0.75); }
+        
+        .banner-content { position: relative; z-index: 2; text-align: center; width: 100%; padding: 0 20px; }
+        .cepo-logo-circle { 
+            width: 60px; 
+            height: 60px; 
+            background: rgba(255, 255, 255, 0.15); 
+            border: 1px solid rgba(255, 255, 255, 0.3); 
+            border-radius: 50%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            margin: 0 auto 1.5rem auto; 
+        }
+        .banner-text-main { font-weight: 700; font-size: 1.25rem; letter-spacing: 0.05em; }
+        @media (min-width: 768px) { .banner-text-main { font-size: 1.5rem; } }
     </style>
 </head>
 <body class="bg-white">
